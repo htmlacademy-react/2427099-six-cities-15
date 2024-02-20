@@ -1,4 +1,4 @@
-import FavoriteCard from '../favorite-card/favorite-card';
+import Card from '../card/card';
 
 export default function FavoriteLocation(): JSX.Element {
   return (
@@ -11,8 +11,8 @@ export default function FavoriteLocation(): JSX.Element {
         </div>
       </div>
       <div className="favorites__places">
-        <FavoriteCard isPremium />
-        <FavoriteCard isPremium={false} />
+        <Card isFavoriteCard isPremium isActive />
+        <Card isFavoriteCard isPremium={false} />
       </div>
     </li>
   );
