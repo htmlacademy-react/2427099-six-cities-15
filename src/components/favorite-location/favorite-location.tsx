@@ -1,6 +1,6 @@
 import Card from '../card/card';
 
-export default function FavoriteLocation(): JSX.Element {
+function FavoriteLocation(): JSX.Element {
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
@@ -17,3 +17,5 @@ export default function FavoriteLocation(): JSX.Element {
     </li>
   );
 }
+
+export default FavoriteLocation;

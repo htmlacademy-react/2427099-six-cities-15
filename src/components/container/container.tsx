@@ -8,7 +8,7 @@ type TContainerProps = {
   classMain?: string;
 }
 
-export default function Container({ children, extraClass, classMain }: TContainerProps): JSX.Element {
+function Container({ children, extraClass, classMain }: TContainerProps): JSX.Element {
   return (
     <div className={classNames('page', extraClass)}>
       <Header />
@@ -18,3 +18,5 @@ export default function Container({ children, extraClass, classMain }: TContaine
     </div>
   );
 }
+
+export default Container;

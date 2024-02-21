@@ -6,7 +6,7 @@ type TCardProps = {
   isActive?: boolean;
 }
 
-export default function Card({ isFavoriteCard, isPremium, isActive }: TCardProps): JSX.Element {
+function Card({ isFavoriteCard, isPremium, isActive }: TCardProps): JSX.Element {
   return (
     <article className={classNames({'cities__card': !isFavoriteCard, 'favorites__card': isFavoriteCard}, 'place-card')}>
       {isPremium &&
@@ -46,3 +46,5 @@ export default function Card({ isFavoriteCard, isPremium, isActive }: TCardProps
     </article>
   );
 }
+
+export default Card;

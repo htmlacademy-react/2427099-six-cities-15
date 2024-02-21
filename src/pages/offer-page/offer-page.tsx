@@ -1,8 +1,12 @@
+import { Helmet } from 'react-helmet-async';
 import Container from '../../components/container/container';
 
-export default function OfferPage(): JSX.Element {
+function OfferPage(): JSX.Element {
   return (
     <Container classMain="page__main--offer">
+      <Helmet>
+        <title>6 cities: offer</title>
+      </Helmet>
       <section className="offer">
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
@@ -270,3 +274,5 @@ export default function OfferPage(): JSX.Element {
     </Container>
   );
 }
+
+export default OfferPage;

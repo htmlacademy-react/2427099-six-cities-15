@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import Card from '../../components/card/card';
 import Container from '../../components/container/container';
 
@@ -5,9 +6,12 @@ type TMainPageProps = {
   cards: string[];
 }
 
-export default function MainPage({ cards }: TMainPageProps): JSX.Element {
+function MainPage({ cards }: TMainPageProps): JSX.Element {
   return (
     <Container extraClass='page--gray page--main' classMain='page__main--index'>
+      <Helmet>
+        <title>6 cities</title>
+      </Helmet>
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <section className="locations container">
@@ -80,3 +84,5 @@ export default function MainPage({ cards }: TMainPageProps): JSX.Element {
     </Container>
   );
 }
+
+export default MainPage;
