@@ -11,5 +11,5 @@ export type OfferPreview = {
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
-  previewImage: string;
+  previewImage?: string;
 }
