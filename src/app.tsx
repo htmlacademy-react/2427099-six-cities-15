@@ -6,13 +6,18 @@ import LoginPage from './pages/login-page/login-page';
 import FavoritesPage from './pages/favorites-page/favorites-page';
 import OfferPage from './pages/offer-page/offer-page';
 import ProtectedRoute from './components/protected-route/protected-route';
+import { Offer } from './types/offer';
 
-export default function App(): JSX.Element {
+type TAppProps = {
+  offers: Offer[];
+}
+
+export default function App({ offers }: TAppProps): JSX.Element {
   return (
     <Routes>
       <Route
         path={AppRoute.Root}
-        element={<MainPage cards={Array.from({length: 4}, () => '')} />}
+        element={<MainPage offers={offers} />}
       />
       <Route
         path={AppRoute.Login}
@@ -23,7 +28,7 @@ export default function App(): JSX.Element {
         element={<ProtectedRoute authorizationStatus={AuthorizationStatus.NoAuth}><FavoritesPage /></ProtectedRoute>}
       />
       <Route
-        path={AppRoute.Offer}
+        path={`${AppRoute.Offer}/:offerId`}
         element={<OfferPage />}
       />
       <Route
