@@ -29,7 +29,7 @@ export default function App({ offers }: TAppProps): JSX.Element {
       />
       <Route
         path={`${AppRoute.Offer}/:offerId`}
-        element={<OfferPage />}
+        element={<OfferPage offers={offers}/>}
       />
       <Route
         path='*'
