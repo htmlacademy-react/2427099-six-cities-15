@@ -1,29 +1,30 @@
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import { getImageSize, getRating } from '../../utils/utils';
+import { capitalizeFirstLetter, getImageSize, getRating } from '../../utils/utils';
 import { AppRoute } from '../../const';
 import { OfferPreview } from '../../types/offer-preview';
 import { Size } from '../../types/common';
 
 type TCardProps = {
   offer: OfferPreview;
+  block: string;
   size?: Size;
 }
 
-function Card({ offer, size = 'large' }: TCardProps): JSX.Element {
+function Card({ offer, block, size = 'large' }: TCardProps): JSX.Element {
   return (
-    <article className={classNames({'cities__card': !offer.isFavorite, 'favorites__card': offer.isFavorite}, 'place-card')}>
+    <article className={`${block}__card place-card`}>
       {offer.isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
         </div>}
 
-      <div className={classNames({'cities__image-wrapper': !offer.isFavorite, 'favorites__image-wrapper': offer.isFavorite}, 'place-card__image-wrapper')}>
+      <div className={`${block}__image-wrapper place-card__image-wrapper`}>
         <Link to={`${AppRoute.Offer}/${offer.id}`}>
           <img className="place-card__image" src={offer.previewImage} {...getImageSize(size)} alt="Place image" />
         </Link>
       </div>
-      <div className={classNames({'favorites__card-info': offer.isFavorite}, 'place-card__info')}>
+      <div className={classNames({'favorites__card-info': block === 'favorites'}, 'place-card__info')}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">€{offer.price}</b>
@@ -45,7 +46,7 @@ function Card({ offer, size = 'large' }: TCardProps): JSX.Element {
         <h2 className="place-card__name">
           <Link to={`${AppRoute.Offer}/${offer.id}`}>{offer.title}</Link>
         </h2>
-        <p className="place-card__type">{offer.type}</p>
+        <p className="place-card__type">{capitalizeFirstLetter(offer.type)}</p>
       </div>
     </article>
   );

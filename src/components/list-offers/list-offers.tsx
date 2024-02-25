@@ -8,7 +8,7 @@ type TListOffers = {
 function ListOffers({offers}: TListOffers): JSX.Element {
   return (
     <div className="cities__places-list places__list tabs__content">
-      {offers.map((offer) => <Card key={offer.id} offer={offer} />)}
+      {offers.map((offer) => <Card key={offer.id} offer={offer} block='cities' />)}
     </div>
   );
 }

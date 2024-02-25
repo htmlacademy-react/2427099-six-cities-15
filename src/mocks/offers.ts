@@ -191,10 +191,111 @@ const offers: Offer[] = [
       'avatarUrl': 'https://15.design.htmlacademy.pro/static/host/avatar-angelina.jpg'
     },
     'isPremium': false,
-    'isFavorite': false,
+    'isFavorite': true,
     'rating': 4.6,
     'bedrooms': 3,
     'maxAdults': 8
+  },
+  {
+    'id': '654a7d5a-9365-4c72-b715-43ff42dced4b',
+    'title': 'Penthouse, 4-5 rooms + 5 balconies',
+    'description': 'I am happy to welcome you to my apartment in the city center! Three words: location, cosy and chic!',
+    'type': 'apartment',
+    'previewImage': 'https://15.design.htmlacademy.pro/static/hotel/14.jpg',
+    'price': 301,
+    'images': [
+      'https://15.design.htmlacademy.pro/static/hotel/11.jpg',
+      'https://15.design.htmlacademy.pro/static/hotel/20.jpg',
+      'https://15.design.htmlacademy.pro/static/hotel/9.jpg',
+      'https://15.design.htmlacademy.pro/static/hotel/10.jpg',
+      'https://15.design.htmlacademy.pro/static/hotel/5.jpg',
+      'https://15.design.htmlacademy.pro/static/hotel/16.jpg'
+    ],
+    'city': {
+      'name': 'Cologne',
+      'location': {
+        'latitude': 50.938361,
+        'longitude': 6.959974,
+        'zoom': 13
+      }
+    },
+    'location': {
+      'latitude': 50.950361,
+      'longitude': 6.961974,
+      'zoom': 16
+    },
+    'goods': [
+      'Cable TV',
+      'Coffee machine',
+      'Dishwasher',
+      'Kitchen',
+      'Towels',
+      'Laptop friendly workspace',
+      'Washer',
+      'Wi-Fi',
+      'Air conditioning',
+      'Washing machine'
+    ],
+    'host': {
+      'isPro': true,
+      'name': 'Angelina',
+      'avatarUrl': 'https://15.design.htmlacademy.pro/static/host/avatar-angelina.jpg'
+    },
+    'isPremium': true,
+    'isFavorite': false,
+    'rating': 3,
+    'bedrooms': 1,
+    'maxAdults': 4
+  },
+  {
+    'id': '3762fad1-e215-4163-9a12-50f18ad7e100',
+    'title': 'House in countryside',
+    'description': 'I am happy to welcome you to my apartment in the city center! Three words: location, cosy and chic!',
+    'type': 'apartment',
+    'previewImage': 'https://15.design.htmlacademy.pro/static/hotel/1.jpg',
+    'price': 365,
+    'images': [
+      'https://15.design.htmlacademy.pro/static/hotel/18.jpg',
+      'https://15.design.htmlacademy.pro/static/hotel/10.jpg',
+      'https://15.design.htmlacademy.pro/static/hotel/3.jpg',
+      'https://15.design.htmlacademy.pro/static/hotel/6.jpg',
+      'https://15.design.htmlacademy.pro/static/hotel/7.jpg',
+      'https://15.design.htmlacademy.pro/static/hotel/4.jpg'
+    ],
+    'city': {
+      'name': 'Brussels',
+      'location': {
+        'latitude': 50.846557,
+        'longitude': 4.351697,
+        'zoom': 13
+      }
+    },
+    'location': {
+      'latitude': 50.827557,
+      'longitude': 4.336697,
+      'zoom': 16
+    },
+    'goods': [
+      'Coffee machine',
+      'Wi-Fi',
+      'Fridge',
+      'Laptop friendly workspace',
+      'Heating',
+      'Washing machine',
+      'Air conditioning',
+      'Kitchen',
+      'Breakfast'
+    ],
+    'host': {
+      'isPro': true,
+      'name': 'Angelina',
+      'avatarUrl': 'https://15.design.htmlacademy.pro/static/host/avatar-angelina.jpg'
+    },
+    'isPremium': false,
+    'isFavorite': false,
+    'rating': 2.6,
+    'bedrooms': 3,
+    'maxAdults': 2
   }
 ];
 

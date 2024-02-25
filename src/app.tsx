@@ -25,7 +25,7 @@ export default function App({ offers }: TAppProps): JSX.Element {
       />
       <Route
         path={AppRoute.Favorites}
-        element={<ProtectedRoute authorizationStatus={AuthorizationStatus.NoAuth}><FavoritesPage /></ProtectedRoute>}
+        element={<ProtectedRoute authorizationStatus={AuthorizationStatus.NoAuth}><FavoritesPage offers={offers}/></ProtectedRoute>}
       />
       <Route
         path={`${AppRoute.Offer}/:offerId`}

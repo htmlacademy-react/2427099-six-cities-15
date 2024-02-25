@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
-import { getRating } from '../../utils/utils';
+import { capitalizeFirstLetter, getRating } from '../../utils/utils';
 import Container from '../../components/container/container';
 import { Offer } from '../../types/offer';
 
@@ -51,7 +51,7 @@ function OfferPage({offers}: TOfferPageProps): JSX.Element {
               <span className="offer__rating-value rating__value">{offerInfo?.rating}</span>
             </div>
             <ul className="offer__features">
-              <li className="offer__feature offer__feature--entire">{offerInfo?.type}</li>
+              <li className="offer__feature offer__feature--entire">{capitalizeFirstLetter(offerInfo?.type ?? '')}</li>
               <li className="offer__feature offer__feature--bedrooms">{offerInfo?.bedrooms} Bedrooms</li>
               <li className="offer__feature offer__feature--adults">Max {offerInfo?.maxAdults} adults</li>
             </ul>
