@@ -1,14 +1,16 @@
 import classNames from 'classnames';
-import { OfferPreview } from '../../types/offer-preview';
-import { AppRoute, TOTAL_RAITING_STATUS } from '../../const';
 import { Link } from 'react-router-dom';
+import { getImageSize, getRating } from '../../utils/utils';
+import { AppRoute } from '../../const';
+import { OfferPreview } from '../../types/offer-preview';
+import { Size } from '../../types/common';
 
 type TCardProps = {
   offer: OfferPreview;
+  size?: Size;
 }
 
-function Card({ offer }: TCardProps): JSX.Element {
-  const offerWidthPercentage = (offer.rating / TOTAL_RAITING_STATUS) * 100;
+function Card({ offer, size = 'large' }: TCardProps): JSX.Element {
   return (
     <article className={classNames({'cities__card': !offer.isFavorite, 'favorites__card': offer.isFavorite}, 'place-card')}>
       {offer.isPremium &&
@@ -18,7 +20,7 @@ function Card({ offer }: TCardProps): JSX.Element {
 
       <div className={classNames({'cities__image-wrapper': !offer.isFavorite, 'favorites__image-wrapper': offer.isFavorite}, 'place-card__image-wrapper')}>
         <Link to={`${AppRoute.Offer}/${offer.id}`}>
-          <img className="place-card__image" src={offer.previewImage} width={260} height={200} alt="Place image" />
+          <img className="place-card__image" src={offer.previewImage} {...getImageSize(size)} alt="Place image" />
         </Link>
       </div>
       <div className={classNames({'favorites__card-info': offer.isFavorite}, 'place-card__info')}>
@@ -36,7 +38,7 @@ function Card({ offer }: TCardProps): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${offerWidthPercentage}%`}} />
+            <span style={{width: `${getRating(offer.rating)}%`}} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
