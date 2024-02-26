@@ -1,5 +1,5 @@
 import { TOTAL_RAITING_STATUS } from '../const';
-import { Size } from '../types/common';
+import { Size } from '../types/size';
 import { Offer } from '../types/offer';
 
 export function getImageSize (size : Size) {

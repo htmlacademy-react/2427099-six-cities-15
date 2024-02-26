@@ -138,7 +138,7 @@ const offers: Offer[] = [
       'Kitchen'
     ],
     'host': {
-      'isPro': true,
+      'isPro': false,
       'name': 'Angelina',
       'avatarUrl': 'https://15.design.htmlacademy.pro/static/host/avatar-angelina.jpg'
     },
@@ -186,7 +186,7 @@ const offers: Offer[] = [
       'Cable TV'
     ],
     'host': {
-      'isPro': true,
+      'isPro': false,
       'name': 'Angelina',
       'avatarUrl': 'https://15.design.htmlacademy.pro/static/host/avatar-angelina.jpg'
     },

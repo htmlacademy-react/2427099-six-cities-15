@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { capitalizeFirstLetter, getImageSize, getRating } from '../../utils/utils';
 import { AppRoute } from '../../const';
 import { OfferPreview } from '../../types/offer-preview';
-import { Size } from '../../types/common';
+import { Size } from '../../types/size';
 
 type TCardProps = {
   offer: OfferPreview;
@@ -30,7 +30,7 @@ function Card({ offer, block, size = 'large' }: TCardProps): JSX.Element {
             <b className="place-card__price-value">€{offer.price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button className={classNames('place-card__bookmark-button', 'button')} type="button">
+          <button className={classNames('place-card__bookmark-button', 'button', {'place-card__bookmark-button--active': offer.isFavorite})} type="button">
             <svg className="place-card__bookmark-icon" width={18} height={19}>
               <use xlinkHref="#icon-bookmark" />
             </svg>
