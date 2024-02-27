@@ -1,14 +1,19 @@
 import { Navigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../const';
 
 type TProtectedRouteProps = {
   children: JSX.Element;
-  hasAccess: boolean;
+  authorizationStatus: AuthorizationStatus;
 }
 
-export default function ProtectedRoute({ children, hasAccess }: TProtectedRouteProps): JSX.Element {
-  if (hasAccess) {
-    return children;
-  }
+function ProtectedRoute(props: TProtectedRouteProps): JSX.Element {
+  const {authorizationStatus, children} = props;
 
-  return <Navigate to='/login' />;
+  return (
+    authorizationStatus === AuthorizationStatus.Auth
+      ? children
+      : <Navigate to={AppRoute.Login} />
+  );
 }
+
+export default ProtectedRoute;
