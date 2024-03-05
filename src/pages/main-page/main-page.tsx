@@ -1,13 +1,17 @@
 import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
 import Container from '../../components/container/container';
 import { Offer } from '../../types/offer';
 import ListOffers from '../../components/list-offers/list-offers';
+import Map from '../../components/map/map';
 
 type TMainPageProps = {
   offers: Offer[];
 }
 
 function MainPage({ offers }: TMainPageProps): JSX.Element {
+  const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
+
   return (
     <Container extraClass='page--gray page--main' classMain='page__main--index'>
       <Helmet>
@@ -70,10 +74,10 @@ function MainPage({ offers }: TMainPageProps): JSX.Element {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <ListOffers offers={offers} />
+            <ListOffers offers={offers} onOfferHover={setSelectedOffer}/>
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map" />
+            <Map extraClass='cities' city={offers[0].city} offers={offers} selectedOffer={selectedOffer}/>
           </div>
         </div>
       </div>

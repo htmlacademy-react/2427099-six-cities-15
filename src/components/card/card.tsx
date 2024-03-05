@@ -2,18 +2,31 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { capitalizeFirstLetter, getImageSize, getRating } from '../../utils/utils';
 import { AppRoute } from '../../const';
-import { OfferPreview } from '../../types/offer-preview';
+import { Offer } from '../../types/offer';
 import { Size } from '../../types/size';
 
 type TCardProps = {
-  offer: OfferPreview;
+  offer: Offer;
   block: string;
   size?: Size;
+  onMouseOver?: (offer: Offer | null) => void;
 }
 
-function Card({ offer, block, size = 'large' }: TCardProps): JSX.Element {
+function Card({ offer, block, size = 'large', onMouseOver }: TCardProps): JSX.Element {
+  const handleOfferHover = () => {
+    if(onMouseOver) {
+      onMouseOver(offer);
+    }
+  };
+
+  const handleOfferLeave = () => {
+    if(onMouseOver) {
+      onMouseOver(null);
+    }
+  };
+
   return (
-    <article className={`${block}__card place-card`}>
+    <article className={`${block}__card place-card`} onMouseOver={handleOfferHover} onMouseLeave={handleOfferLeave}>
       {offer.isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
