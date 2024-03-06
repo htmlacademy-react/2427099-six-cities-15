@@ -7,12 +7,14 @@ import FavoritesPage from './pages/favorites-page/favorites-page';
 import OfferPage from './pages/offer-page/offer-page';
 import ProtectedRoute from './components/protected-route/protected-route';
 import { Offer } from './types/offer';
+import { Comment } from './types/comment';
 
 type TAppProps = {
   offers: Offer[];
+  comments: Comment[];
 }
 
-export default function App({ offers }: TAppProps): JSX.Element {
+export default function App({ offers, comments }: TAppProps): JSX.Element {
   return (
     <Routes>
       <Route
@@ -29,7 +31,7 @@ export default function App({ offers }: TAppProps): JSX.Element {
       />
       <Route
         path={`${AppRoute.Offer}/:offerId`}
-        element={<OfferPage offers={offers}/>}
+        element={<OfferPage offers={offers} comments={comments}/>}
       />
       <Route
         path='*'
