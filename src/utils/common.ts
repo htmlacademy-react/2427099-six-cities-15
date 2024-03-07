@@ -1,6 +1,7 @@
-import { TOTAL_RAITING_STATUS } from '../const';
+import { AuthorizationStatus, TOTAL_RAITING_STATUS } from '../const';
 import { Size } from '../types/size';
 import { Offer } from '../types/offer';
+import { Comment } from '../types/comment';
 
 export function getImageSize (size : Size) {
   return size === 'small' ? { width: '150', height: '110' } : { width: '260', height: '200' };
@@ -8,6 +9,10 @@ export function getImageSize (size : Size) {
 
 export function getRating(number: number) {
   return (number / TOTAL_RAITING_STATUS) * 100;
+}
+
+export function setAuthorizationStatus(status: AuthorizationStatus): boolean {
+  return status === AuthorizationStatus.Auth;
 }
 
 export function getFavoriteCitiesFromOffers({offers}: {offers: Offer[]}): string[] {
@@ -22,4 +27,8 @@ export function capitalizeFirstLetter(string: string): string {
 
 export function humanizeDate(date: string): string {
   return new Date(date).toLocaleString('en-US', { month: 'long', year: 'numeric' });
+}
+
+export function sortCommentsByDate(comments: Comment[]): Comment[] {
+  return comments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }

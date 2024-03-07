@@ -20,3 +20,5 @@ export const RATINGS = [
   { value: 2, title: 'badly' },
   { value: 1, title: 'terribly' },
 ];
+
+export const LOCATIONS = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];

@@ -1,4 +1,5 @@
 import { Comment } from '../../types/comment';
+import { sortCommentsByDate } from '../../utils/common';
 import CommentItem from '../comment-item/comment-item';
 
 type TListCommentsProps = {
@@ -6,9 +7,10 @@ type TListCommentsProps = {
 }
 
 function ListComments({ comments }: TListCommentsProps): JSX.Element {
+  const sortedComments = sortCommentsByDate(comments);
   return (
     <ul className="reviews__list">
-      {comments.map((comment) => <CommentItem key={comment.id} comment={comment} />)}
+      {sortedComments.map((comment) => <CommentItem key={comment.id} comment={comment} />)}
     </ul>
   );
 }

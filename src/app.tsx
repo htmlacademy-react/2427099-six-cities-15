@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from './const';
+import { AppRoute } from './const';
 import MainPage from './pages/main-page/main-page';
 import NotFoundPage from './pages/not-found-page/not-found-page';
 import LoginPage from './pages/login-page/login-page';
@@ -23,11 +23,11 @@ export default function App({ offers, comments }: TAppProps): JSX.Element {
       />
       <Route
         path={AppRoute.Login}
-        element={<LoginPage />}
+        element={<ProtectedRoute onlyUnAuth><LoginPage/></ProtectedRoute>}
       />
       <Route
         path={AppRoute.Favorites}
-        element={<ProtectedRoute authorizationStatus={AuthorizationStatus.NoAuth}><FavoritesPage offers={offers}/></ProtectedRoute>}
+        element={<ProtectedRoute><FavoritesPage offers={offers}/></ProtectedRoute>}
       />
       <Route
         path={`${AppRoute.Offer}/:offerId`}

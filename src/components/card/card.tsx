@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import { capitalizeFirstLetter, getImageSize, getRating } from '../../utils/utils';
+import { capitalizeFirstLetter, getImageSize, getRating } from '../../utils/common';
 import { AppRoute } from '../../const';
 import { Offer } from '../../types/offer';
 import { Size } from '../../types/size';

@@ -1,5 +1,5 @@
 import { Offer } from '../../types/offer';
-import { getFavoriteCitiesFromOffers } from '../../utils/utils';
+import { getFavoriteCitiesFromOffers } from '../../utils/common';
 import FavoriteItem from '../favorite-item/favorite-item';
 
 type TFavoriteListProps = {

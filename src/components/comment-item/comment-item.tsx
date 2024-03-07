@@ -1,5 +1,5 @@
 import { Comment } from '../../types/comment';
-import { getRating, humanizeDate } from '../../utils/utils';
+import { getRating, humanizeDate } from '../../utils/common';
 
 type TCommentItemProps = {
   comment: Comment;
