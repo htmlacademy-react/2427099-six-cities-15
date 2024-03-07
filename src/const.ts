@@ -22,3 +22,5 @@ export const RATINGS = [
 ];
 
 export const LOCATIONS = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+export const COMMENT_DATE_FORMAT = 'MMMM YYYY';
+export const ISO_DATE_FORMAT = 'YYYY-MM-DD';

@@ -1,4 +1,5 @@
-import { AuthorizationStatus, TOTAL_RAITING_STATUS } from '../const';
+import dayjs from 'dayjs';
+import { AuthorizationStatus, COMMENT_DATE_FORMAT, ISO_DATE_FORMAT, TOTAL_RAITING_STATUS } from '../const';
 import { Size } from '../types/size';
 import { Offer } from '../types/offer';
 import { Comment } from '../types/comment';
@@ -26,9 +27,13 @@ export function capitalizeFirstLetter(string: string): string {
 }
 
 export function humanizeDate(date: string): string {
-  return new Date(date).toLocaleString('en-US', { month: 'long', year: 'numeric' });
+  return date ? dayjs(date).format(COMMENT_DATE_FORMAT) : '';
+}
+
+export function formatDateToISO(date: string): string {
+  return date ? dayjs(date).format(ISO_DATE_FORMAT) : '';
 }
 
 export function sortCommentsByDate(comments: Comment[]): Comment[] {
-  return comments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  return comments.sort((a, b) => dayjs(a.date).diff(dayjs(b.date)));
 }

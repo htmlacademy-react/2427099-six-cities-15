@@ -1,5 +1,5 @@
 import { Comment } from '../../types/comment';
-import { getRating, humanizeDate } from '../../utils/common';
+import { formatDateToISO, getRating, humanizeDate } from '../../utils/common';
 
 type TCommentItemProps = {
   comment: Comment;
@@ -24,7 +24,7 @@ function CommentItem({ comment }: TCommentItemProps): JSX.Element {
           </div>
         </div>
         <p className="reviews__text">{comment.comment}</p>
-        <time className="reviews__time" dateTime={comment.date}>{humanizeDate(comment.date)}</time>
+        <time className="reviews__time" dateTime={formatDateToISO(comment.date)}>{humanizeDate(comment.date)}</time>
       </div>
     </li>
   );
