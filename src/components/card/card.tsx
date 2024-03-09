@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import { capitalizeFirstLetter, getImageSize, getRating } from '../../utils/common';
-import { AppRoute } from '../../const';
-import { Offer } from '../../types/offer';
-import { Size } from '../../types/size';
+import { capitalizeFirstLetter, getImageSize, getRating } from '@utils/common';
+import { AppRoute } from '@const';
+import { Offer } from '@type/offer';
+import { Size } from '@type/size';
 
 type TCardProps = {
   offer: Offer;

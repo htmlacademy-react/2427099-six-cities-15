@@ -1,8 +1,8 @@
 import { Helmet } from 'react-helmet-async';
-import Container from '../../components/container/container';
-import FavoriteList from '../../components/favorites-list/favorites-list';
-import { Offer } from '../../types/offer';
-import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
+import Container from '@components/container/container';
+import FavoriteList from '@components/favorites-list/favorites-list';
+import { Offer } from '@type/offer';
+import FavoritesEmpty from '@components/favorites-empty/favorites-empty';
 
 type TFavoritePageProps = {
   offers?: Offer[];

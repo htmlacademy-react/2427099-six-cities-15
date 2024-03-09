@@ -1,5 +1,5 @@
-import { Comment } from '../../types/comment';
-import { formatDateToISO, getRating, humanizeDate } from '../../utils/common';
+import { Comment } from '@type/comment';
+import { formatDateToISO, getRating, humanizeDate } from '@utils/common';
 
 type TCommentItemProps = {
   comment: Comment;

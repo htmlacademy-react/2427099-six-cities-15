@@ -1,13 +1,13 @@
 import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
 import classNames from 'classnames';
-import Container from '../../components/container/container';
-import { Offer } from '../../types/offer';
-import ListOffers from '../../components/list-offers/list-offers';
-import Map from '../../components/map/map';
-import { LOCATIONS } from '../../const';
-import Location from '../../components/location/location';
-import MainEmpty from '../../components/main-empty/main-empty';
+import Container from '@components/container/container';
+import { Offer } from '@type/offer';
+import ListOffers from '@components/list-offers/list-offers';
+import Map from '@components/map/map';
+import { LOCATIONS } from '@const';
+import Location from '@components/location/location';
+import MainEmpty from '@components/main-empty/main-empty';
 
 type TMainPageProps = {
   offers: Offer[];

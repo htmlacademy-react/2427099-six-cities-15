@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import Container from '../../components/container/container';
+import Container from '@components/container/container';
 
 function LoginPage(): JSX.Element {
   return (
