@@ -11,24 +11,23 @@ type MapProps = {
   extraClass: string;
   city: City;
   offers: Offer[];
-  selectedOffer?: Offer | null;
+  selectedOfferId?: string | null;
 };
 
-const defaultCustomIcon = new Icon({
+const defaultMarkerIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
   iconSize: [27, 39],
   iconAnchor: [13.5, 40]
 });
 
-const currentCustomIcon = new Icon({
+const currentMarkerIcon = new Icon({
   iconUrl: URL_MARKER_CURRENT,
   iconSize: [27, 39],
   iconAnchor: [13.5, 40]
 });
 
 function Map(props: MapProps): JSX.Element {
-  const {extraClass, city, offers, selectedOffer} = props;
-
+  const {extraClass, city, offers, selectedOfferId} = props;
   const mapRef = useRef(null);
   const map = useMap({mapRef, city});
 
@@ -43,9 +42,7 @@ function Map(props: MapProps): JSX.Element {
 
         marker
           .setIcon(
-            selectedOffer !== undefined && offer.id === selectedOffer?.id
-              ? currentCustomIcon
-              : defaultCustomIcon
+            offer.id === selectedOfferId ? currentMarkerIcon : defaultMarkerIcon
           )
           .addTo(markerLayer);
       });
@@ -54,7 +51,7 @@ function Map(props: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [extraClass, map, offers, selectedOffer]);
+  }, [extraClass, map, offers, selectedOfferId]);
 
   return <section className={`${extraClass}__map map`} ref={mapRef} />;
 }

@@ -72,7 +72,7 @@ function MainPage({ offers }: TMainPageProps): JSX.Element {
               />
             </section>
             <div className="cities__right-section">
-              <Map extraClass='cities' city={offers[0].city} offers={offers} selectedOffer={selectedOffer}/>
+              <Map extraClass='cities' city={offers[0].city} offers={offers} selectedOfferId={selectedOffer?.id}/>
             </div>
           </div>
         </div>}

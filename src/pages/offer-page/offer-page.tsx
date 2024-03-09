@@ -18,7 +18,13 @@ type TOfferPageProps = {
 function OfferPage({ offers, comments }: TOfferPageProps): JSX.Element {
   const { offerId } = useParams();
   const offerInfo = offers.find((offer) => offer.id === offerId);
+
+  if (!offerInfo) {
+    throw new Error(`Offer with id ${offerId} not found`);
+  }
+
   const nearOffers = offers.slice(0, 3);
+  const nearOffersAndCurrent = [offerInfo, ...nearOffers];
 
   return (
     <Container classMain="page__main--offer">
@@ -99,7 +105,7 @@ function OfferPage({ offers, comments }: TOfferPageProps): JSX.Element {
             </section>
           </div>
         </div>
-        <Map extraClass='offer' city={nearOffers[0].city} offers={nearOffers} />
+        <Map extraClass='offer' city={offerInfo.city} offers={nearOffersAndCurrent} selectedOfferId={offerInfo.id}/>
       </section>
       <div className="container">
         <section className="near-places places">
