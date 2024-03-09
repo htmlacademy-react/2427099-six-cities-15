@@ -3,26 +3,27 @@ import { Icon, Marker, layerGroup } from 'leaflet';
 import useMap from '../../hooks/use-map';
 import { Offer } from '../../types/offer';
 import { City } from '../../types/city';
-import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
+import URL_MARKER_DEFAULT from '../../assets/pin.svg';
+import URL_MARKER_CURRENT from '../../assets/pin-active.svg';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   extraClass: string;
   city: City;
   offers: Offer[];
-  selectedOffer: Offer | null;
+  selectedOffer?: Offer | null;
 };
 
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 40]
 });
 
 const currentCustomIcon = new Icon({
   iconUrl: URL_MARKER_CURRENT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 40]
 });
 
 function Map(props: MapProps): JSX.Element {

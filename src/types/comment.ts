@@ -2,7 +2,7 @@ import { Host } from './host';
 
 export type Comment = {
   id: string;
-  date: Date;
+  date: string;
   user: Host;
   comment: string;
   rating: number;
