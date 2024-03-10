@@ -12,6 +12,7 @@ export enum AuthorizationStatus {
 }
 
 export const TOTAL_RAITING_STATUS = 5;
+export const NEAR_OFFERS_COUNT = 3;
 
 export const RATINGS = [
   { value: 5, title: 'perfect' },

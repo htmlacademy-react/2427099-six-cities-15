@@ -1,14 +1,15 @@
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
-import { capitalizeFirstLetter, getRating } from '@utils/common';
 import Container from '@components/container/container';
-import { Offer } from '@type/offer';
 import OfferCommentForm from '@components/offer-comment-form/offer-comment-form';
-import { Comment } from '@type/comment';
 import ListComments from '@components/list-comments/list-comments';
 import Map from '@components/map/map';
 import ListOffers from '@components/list-offers/list-offers';
+import { Offer } from '@type/offer';
+import { Comment } from '@type/comment';
+import { capitalizeFirstLetter, getRating } from '@utils/common';
+import { NEAR_OFFERS_COUNT } from '@const';
 
 type TOfferPageProps = {
   offers: Offer[];
@@ -23,7 +24,7 @@ function OfferPage({ offers, comments }: TOfferPageProps): JSX.Element {
     throw new Error(`Offer with id ${offerId} not found`);
   }
 
-  const nearOffers = offers.slice(0, 3);
+  const nearOffers = offers.slice(0, NEAR_OFFERS_COUNT);
   const nearOffersAndCurrent = [offerInfo, ...nearOffers];
 
   return (
