@@ -28,7 +28,8 @@
       "@pages/*": ["./src/pages/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@utils/*": ["./src/utils/*"],
-      "@assets/*": ["./src/assets/*"]
+      "@assets/*": ["./src/assets/*"],
+      "@store/*": ["./src/store/*"]
     }
   },
   "include": ["src", "vite.config.ts"],

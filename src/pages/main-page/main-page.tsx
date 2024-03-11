@@ -8,18 +8,27 @@ import Map from '@components/map/map';
 import { LOCATIONS } from '@const';
 import Location from '@components/location/location';
 import MainEmpty from '@components/main-empty/main-empty';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { selectLocation, setOffers } from '@store/action';
 
 type TMainPageProps = {
   offers: Offer[];
 }
 
 function MainPage({ offers }: TMainPageProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const activeLocation = useAppSelector((state) => state.location);
+  const selectedOffers = useAppSelector((state) => state.offers);
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
-  const [activeLocation, setActiveLocation] = useState<string>(LOCATIONS[3]);
   const [isSortOpened, setIsSortOpened] = useState<boolean>(false);
 
   const handleSortBlockClick = () => {
     setIsSortOpened(!isSortOpened);
+  };
+
+  const handleLocationChange = (location: string) => {
+    dispatch(selectLocation(location));
+    dispatch(setOffers(offers));
   };
 
   return (
@@ -36,18 +45,20 @@ function MainPage({ offers }: TMainPageProps): JSX.Element {
                 key={location}
                 location={location}
                 isActive={location === activeLocation}
-                onActiveChange={() => setActiveLocation(location)}
+                onActiveChange={() => handleLocationChange(location)}
               />
             ))}
           </ul>
         </section>
       </div>
-      {offers.length === 0 ? <MainEmpty /> :
+      {selectedOffers.length === 0 ? <MainEmpty /> :
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+              <b className="places__found">
+                {selectedOffers.length} {selectedOffers.length === 1 ? 'place' : 'places'} to stay in {selectedOffers[0].city.name}
+              </b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0} onClick={handleSortBlockClick}>
@@ -64,7 +75,7 @@ function MainPage({ offers }: TMainPageProps): JSX.Element {
                 </ul>
               </form>
               <ListOffers
-                offers={offers}
+                offers={selectedOffers}
                 onOfferHover={setSelectedOffer}
                 listBlock='cities__places-list'
                 extraClass='tabs__content'
@@ -72,7 +83,7 @@ function MainPage({ offers }: TMainPageProps): JSX.Element {
               />
             </section>
             <div className="cities__right-section">
-              <Map extraClass='cities' city={offers[0].city} offers={offers} selectedOfferId={selectedOffer?.id}/>
+              <Map extraClass='cities' city={selectedOffers[0].city} offers={selectedOffers} selectedOfferId={selectedOffer?.id}/>
             </div>
           </div>
         </div>}
