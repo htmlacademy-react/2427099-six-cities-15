@@ -1,15 +1,16 @@
 import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
+import classNames from 'classnames';
 import Container from '@components/container/container';
 import { Offer } from '@type/offer';
 import ListOffers from '@components/list-offers/list-offers';
 import Map from '@components/map/map';
-import { LOCATIONS } from '@const';
+import { LOCATIONS, SORT_TYPES } from '@const';
 import Location from '@components/location/location';
 import MainEmpty from '@components/main-empty/main-empty';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { selectLocation, setOffers } from '@store/action';
-import OfferSort from '@components/offer-sort/offer-sort';
+import { selectLocation, selectSortType, setOffers, setOffersBySortType } from '@store/action';
+import SortItem from '@components/sort-item/sort-item';
 
 type TMainPageProps = {
   offers: Offer[];
@@ -19,11 +20,24 @@ function MainPage({ offers }: TMainPageProps): JSX.Element {
   const dispatch = useAppDispatch();
   const activeLocation = useAppSelector((state) => state.location);
   const selectedOffers = useAppSelector((state) => state.offers);
+  const activeSortType = useAppSelector((state) => state.sortType);
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
+  const [isSortOpened, setIsSortOpened] = useState<boolean>(false);
+
+  const handleSortBlockClick = () => {
+    setIsSortOpened(!isSortOpened);
+  };
 
   const handleLocationChange = (location: string) => {
     dispatch(selectLocation(location));
     dispatch(setOffers(offers));
+    dispatch(selectSortType(SORT_TYPES[0].name));
+  };
+
+  const handleSortTypeClick = (type: string) => {
+    dispatch(selectSortType(type));
+    dispatch(setOffersBySortType(selectedOffers));
+    setIsSortOpened(!isSortOpened);
   };
 
   return (
@@ -40,7 +54,7 @@ function MainPage({ offers }: TMainPageProps): JSX.Element {
                 key={location}
                 location={location}
                 isActive={location === activeLocation}
-                onActiveChange={() => handleLocationChange(location)}
+                onLocationChange={() => handleLocationChange(location)}
               />
             ))}
           </ul>
@@ -54,7 +68,27 @@ function MainPage({ offers }: TMainPageProps): JSX.Element {
               <b className="places__found">
                 {selectedOffers.length} {selectedOffers.length === 1 ? 'place' : 'places'} to stay in {selectedOffers[0].city.name}
               </b>
-              <OfferSort />
+              <form className="places__sorting" action="#" method="get">
+                <span className="places__sorting-caption">Sort by</span>
+                <span className="places__sorting-type" tabIndex={0} onClick={handleSortBlockClick}>
+                  {activeSortType}
+                  <svg className="places__sorting-arrow" width={7} height={4}>
+                    <use xlinkHref="#icon-arrow-select" />
+                  </svg>
+                </span>
+                <ul className={classNames('places__options places__options--custom', isSortOpened && 'places__options--opened')}>
+                  {
+                    SORT_TYPES.map((type) => (
+                      <SortItem
+                        key={type.name}
+                        type={type.name}
+                        isSortSelected={type.name === activeSortType}
+                        onSortTypeClick={() => handleSortTypeClick(type.name)}
+                      />
+                    ))
+                  }
+                </ul>
+              </form>
               <ListOffers
                 offers={selectedOffers}
                 onOfferHover={setSelectedOffer}
