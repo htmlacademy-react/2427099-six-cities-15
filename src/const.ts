@@ -22,6 +22,13 @@ export const RATINGS = [
   { value: 1, title: 'terribly' },
 ];
 
+export const SORT_TYPES = [
+  { name: 'Popular' },
+  { name: 'Price: low to high' },
+  { name: 'Price: high to low' },
+  { name: 'Top rated first' }
+];
+
 export const LOCATIONS = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 export const COMMENT_DATE_FORMAT = 'MMMM YYYY';
 export const ISO_DATE_FORMAT = 'YYYY-MM-DD';
