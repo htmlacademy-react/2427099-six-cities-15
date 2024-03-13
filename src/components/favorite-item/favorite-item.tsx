@@ -1,4 +1,4 @@
-import { Offer } from '../../types/offer';
+import { Offer } from '@type/offer';
 import Card from '../card/card';
 
 type TFavoriteItemProps = {

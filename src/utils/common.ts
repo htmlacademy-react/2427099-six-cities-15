@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
-import { AuthorizationStatus, COMMENT_DATE_FORMAT, ISO_DATE_FORMAT, TOTAL_RAITING_STATUS } from '../const';
-import { Size } from '../types/size';
-import { Offer } from '../types/offer';
-import { Comment } from '../types/comment';
+import { AuthorizationStatus, COMMENT_DATE_FORMAT, ISO_DATE_FORMAT, TOTAL_RAITING_STATUS } from '@const';
+import { Size } from '@type/size';
+import { Offer } from '@type/offer';
+import { Comment } from '@type/comment';
 
 export function getImageSize (size : Size) {
   return size === 'small' ? { width: '150', height: '110' } : { width: '260', height: '200' };

@@ -1,8 +1,13 @@
 import { ChangeEvent, Fragment, useState } from 'react';
-import { RATINGS } from '../../const';
+import { RATINGS } from '@const';
+
+type TFormData = {
+  review: string;
+  rating: number;
+}
 
 function OfferCommentForm(): JSX.Element {
-  const [reviewData, setReviewData] = useState({
+  const [reviewData, setReviewData] = useState<TFormData>({
     rating: 0,
     review: '',
   });

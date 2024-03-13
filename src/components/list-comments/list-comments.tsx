@@ -1,5 +1,5 @@
-import { Comment } from '../../types/comment';
-import { sortCommentsByDate } from '../../utils/common';
+import { Comment } from '@type/comment';
+import { sortCommentsByDate } from '@utils/common';
 import CommentItem from '../comment-item/comment-item';
 
 type TListCommentsProps = {

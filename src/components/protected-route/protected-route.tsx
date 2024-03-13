@@ -1,6 +1,6 @@
 import { Location, Navigate, useLocation } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
-import { setAuthorizationStatus } from '../../utils/common';
+import { AppRoute, AuthorizationStatus } from '@const';
+import { setAuthorizationStatus } from '@utils/common';
 
 type TProtectedRouteProps = {
   onlyUnAuth?: boolean;
