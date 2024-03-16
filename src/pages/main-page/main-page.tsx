@@ -5,11 +5,12 @@ import Container from '@components/container/container';
 import { Offer } from '@type/offer';
 import ListOffers from '@components/list-offers/list-offers';
 import Map from '@components/map/map';
-import { LOCATIONS } from '@const';
+import { LOCATIONS, SORT_TYPES } from '@const';
 import Location from '@components/location/location';
 import MainEmpty from '@components/main-empty/main-empty';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { selectLocation, setOffers } from '@store/action';
+import { selectLocation, selectSortType, setOffers, setOffersBySortType } from '@store/action';
+import SortItem from '@components/sort-item/sort-item';
 
 type TMainPageProps = {
   offers: Offer[];
@@ -19,6 +20,7 @@ function MainPage({ offers }: TMainPageProps): JSX.Element {
   const dispatch = useAppDispatch();
   const activeLocation = useAppSelector((state) => state.location);
   const selectedOffers = useAppSelector((state) => state.offers);
+  const activeSortType = useAppSelector((state) => state.sortType);
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
   const [isSortOpened, setIsSortOpened] = useState<boolean>(false);
 
@@ -29,6 +31,13 @@ function MainPage({ offers }: TMainPageProps): JSX.Element {
   const handleLocationChange = (location: string) => {
     dispatch(selectLocation(location));
     dispatch(setOffers(offers));
+    dispatch(selectSortType(SORT_TYPES[0].name));
+  };
+
+  const handleSortTypeClick = (type: string) => {
+    dispatch(selectSortType(type));
+    dispatch(setOffersBySortType(selectedOffers));
+    setIsSortOpened(!isSortOpened);
   };
 
   return (
@@ -45,7 +54,7 @@ function MainPage({ offers }: TMainPageProps): JSX.Element {
                 key={location}
                 location={location}
                 isActive={location === activeLocation}
-                onActiveChange={() => handleLocationChange(location)}
+                onLocationChange={() => handleLocationChange(location)}
               />
             ))}
           </ul>
@@ -62,16 +71,22 @@ function MainPage({ offers }: TMainPageProps): JSX.Element {
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0} onClick={handleSortBlockClick}>
-              Popular
+                  {activeSortType}
                   <svg className="places__sorting-arrow" width={7} height={4}>
                     <use xlinkHref="#icon-arrow-select" />
                   </svg>
                 </span>
                 <ul className={classNames('places__options places__options--custom', isSortOpened && 'places__options--opened')}>
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
+                  {
+                    SORT_TYPES.map((type) => (
+                      <SortItem
+                        key={type.name}
+                        type={type.name}
+                        isSortSelected={type.name === activeSortType}
+                        onSortTypeClick={() => handleSortTypeClick(type.name)}
+                      />
+                    ))
+                  }
                 </ul>
               </form>
               <ListOffers

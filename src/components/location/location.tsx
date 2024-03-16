@@ -4,16 +4,16 @@ import { Link } from 'react-router-dom';
 type TLocationProps = {
   location: string;
   isActive: boolean;
-  onActiveChange: (location: string) => void;
+  onLocationChange: (location: string) => void;
 }
 
-function Location({ location, isActive, onActiveChange }: TLocationProps): JSX.Element {
+function Location({ location, isActive, onLocationChange }: TLocationProps): JSX.Element {
   return (
     <li className="locations__item">
       <Link
         className={classNames('locations__item-link tabs__item', { 'tabs__item--active': isActive })}
         to="#"
-        onClick={() => onActiveChange(location)}
+        onClick={() => onLocationChange(location)}
       >
         <span>{location}</span>
       </Link>
