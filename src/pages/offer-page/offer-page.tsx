@@ -10,7 +10,7 @@ import { Comment } from '@type/comment';
 import { capitalizeFirstLetter, getRating } from '@utils/common';
 import { NEAR_OFFERS_COUNT } from '@const';
 import { useAppSelector } from '@hooks/index';
-import { selectOffers } from '@store/selectors/offers';
+import { offersSelectors } from '@store/slices/offers';
 
 type TOfferPageProps = {
   comments: Comment[];
@@ -18,7 +18,7 @@ type TOfferPageProps = {
 
 function OfferPage({ comments }: TOfferPageProps): JSX.Element {
   const { offerId } = useParams();
-  const offers = useAppSelector(selectOffers);
+  const offers = useAppSelector(offersSelectors.selectOffers);
   const offerInfo = offers.find((offer) => offer.id === offerId);
 
   if (!offerInfo) {

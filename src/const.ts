@@ -22,12 +22,13 @@ export const RATINGS = [
   { value: 1, title: 'terribly' },
 ];
 
-export const SORT_TYPES = [
-  { name: 'Popular' },
-  { name: 'Price: low to high' },
-  { name: 'Price: high to low' },
-  { name: 'Top rated first' }
-];
+export const SORT_TYPES = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'] satisfies Record<SortTypeOption, string>;
+export enum SortTypeOption {
+  Popular = 0,
+  PriceLowToHigh = 1,
+  PriceHighToLow = 2,
+  TopRatedFirst = 3
+}
 
 export const LOCATIONS = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 export const COMMENT_DATE_FORMAT = 'MMMM YYYY';

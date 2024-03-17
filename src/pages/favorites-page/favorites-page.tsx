@@ -3,10 +3,10 @@ import Container from '@components/container/container';
 import FavoriteList from '@components/favorites-list/favorites-list';
 import FavoritesEmpty from '@components/favorites-empty/favorites-empty';
 import { useAppSelector } from '@hooks/index';
-import { selectOffers } from '@store/selectors/offers';
+import { offersSelectors } from '@store/slices/offers';
 
 function FavoritesPage(): JSX.Element {
-  const offers = useAppSelector(selectOffers);
+  const offers = useAppSelector(offersSelectors.selectOffers);
   const favotiteOffers = offers?.filter((offer) => offer.isFavorite);
   return (
     <Container classMain='page__main--favorites'>
