@@ -1,4 +1,4 @@
-export const BACKEND_URL = 'https://15.design.htmlacademy.pro/spec/six-cities';
+export const BACKEND_URL = 'https://15.design.htmlacademy.pro/six-cities';
 export const REQUEST_TIMEOUT = 5000;
 
 export enum AppRoute {
@@ -6,6 +6,10 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer'
+}
+
+export enum ApiRoute {
+  Offers = '/offers',
 }
 
 export enum AuthorizationStatus {

@@ -1,7 +1,6 @@
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import { LOCATIONS } from '@const';
 import { Offer } from '@type/offer';
-import offers from '../../mocks/offers';
 
 type OffersState = {
   location: string;
@@ -10,7 +9,7 @@ type OffersState = {
 
 const initialState: OffersState = {
   location: LOCATIONS[0],
-  offers
+  offers: []
 };
 
 const offersSlice = createSlice({
@@ -20,6 +19,9 @@ const offersSlice = createSlice({
     setLocation: (state, action: PayloadAction<string>) => {
       state.location = action.payload;
     },
+    loadOffers: (state, action: PayloadAction<Offer[]>) => {
+      state.offers = action.payload;
+    }
   },
   selectors: {
     selectLocation: (state: OffersState) => state.location,
