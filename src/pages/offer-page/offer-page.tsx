@@ -6,18 +6,19 @@ import OfferCommentForm from '@components/offer-comment-form/offer-comment-form'
 import ListComments from '@components/list-comments/list-comments';
 import Map from '@components/map/map';
 import ListOffers from '@components/list-offers/list-offers';
-import { Offer } from '@type/offer';
 import { Comment } from '@type/comment';
 import { capitalizeFirstLetter, getRating } from '@utils/common';
 import { NEAR_OFFERS_COUNT } from '@const';
+import { useAppSelector } from '@hooks/index';
+import { offersSelectors } from '@store/slices/offers';
 
 type TOfferPageProps = {
-  offers: Offer[];
   comments: Comment[];
 }
 
-function OfferPage({ offers, comments }: TOfferPageProps): JSX.Element {
+function OfferPage({ comments }: TOfferPageProps): JSX.Element {
   const { offerId } = useParams();
+  const offers = useAppSelector(offersSelectors.selectOffers);
   const offerInfo = offers.find((offer) => offer.id === offerId);
 
   if (!offerInfo) {

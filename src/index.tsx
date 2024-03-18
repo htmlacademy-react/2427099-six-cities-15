@@ -4,9 +4,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import App from './app';
-import offers from './mocks/offers';
 import comments from './mocks/comments';
 import { store } from './store';
+import { fetchOffersAction } from '@store/api-actions';
+
+store.dispatch(fetchOffersAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -17,7 +19,7 @@ root.render(
     <HelmetProvider>
       <BrowserRouter>
         <Provider store={store}>
-          <App offers={offers} comments={comments}/>
+          <App comments={comments}/>
         </Provider>
       </BrowserRouter>
     </HelmetProvider>

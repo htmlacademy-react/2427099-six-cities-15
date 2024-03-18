@@ -25,6 +25,7 @@ export default defineConfig({
       '@utils': resolve(root, 'utils'),
       '@assets': resolve(root, 'assets'),
       '@store': resolve(root, 'store'),
+      '@services': resolve(root, 'services'),
     }
   }
 });
