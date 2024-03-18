@@ -7,12 +7,24 @@ import FavoritesPage from '@pages/favorites-page/favorites-page';
 import OfferPage from '@pages/offer-page/offer-page';
 import ProtectedRoute from '@components/protected-route/protected-route';
 import { Comment } from '@type/comment';
+import { useAppSelector } from './hooks';
+import { offersSelectors } from '@store/slices/offers';
+import Loader from '@components/loader/loader';
 
 type TAppProps = {
   comments: Comment[];
 }
 
 export default function App({ comments }: TAppProps): JSX.Element {
+
+  const isDataLoading = useAppSelector(offersSelectors.selectLoadingStatus);
+
+  if (isDataLoading) {
+    return (
+      <Loader />
+    );
+  }
+
   return (
     <Routes>
       <Route
