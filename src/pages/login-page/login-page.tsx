@@ -3,7 +3,7 @@ import Container from '@components/container/container';
 
 function LoginPage(): JSX.Element {
   return (
-    <Container extraClass='page--gray page--login' classMain='page__main--login'>
+    <Container isLoginNav={false} extraClass='page--gray page--login' classMain='page__main--login'>
       <Helmet>
         <title>6 cities: authorization</title>
       </Helmet>

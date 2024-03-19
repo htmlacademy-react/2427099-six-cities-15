@@ -35,7 +35,7 @@ function MainPage(): JSX.Element {
   }
 
   return (
-    <Container extraClass='page--gray page--main' classMain='page__main--index'>
+    <Container isLoginNav extraClass='page--gray page--main' classMain='page__main--index'>
       <Helmet>
         <title>6 cities</title>
       </Helmet>
