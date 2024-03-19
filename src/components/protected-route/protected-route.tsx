@@ -1,6 +1,8 @@
 import { Location, Navigate, useLocation } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '@const';
+import { AppRoute } from '@const';
 import { setAuthorizationStatus } from '@utils/common';
+import { useAppSelector } from '@hooks/index';
+import { authSelectors } from '@store/slices/auth';
 
 type TProtectedRouteProps = {
   onlyUnAuth?: boolean;
@@ -13,9 +15,10 @@ type TLocationState = {
 
 function ProtectedRoute(props: TProtectedRouteProps): JSX.Element {
   const {onlyUnAuth, children} = props;
+  const authorizationStatus = useAppSelector(authSelectors.selectAuthorizationStatus);
   const location: Location<TLocationState> = useLocation() as Location<TLocationState>;
 
-  const isAuthorizationStatus = setAuthorizationStatus(AuthorizationStatus.Auth);
+  const isAuthorizationStatus = setAuthorizationStatus(authorizationStatus);
 
   if (isAuthorizationStatus && onlyUnAuth) {
     const from = location.state?.from || { pathname: AppRoute.Root };
