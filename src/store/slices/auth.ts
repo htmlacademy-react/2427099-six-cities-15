@@ -1,5 +1,5 @@
-import { AuthorizationStatus } from '@const';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { AuthorizationStatus } from '@const';
 
 type AuthState = {
   authorizationStatus: AuthorizationStatus;
