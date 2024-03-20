@@ -10,6 +10,7 @@ import MainEmpty from '@components/main-empty/main-empty';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import Sort from '@components/sort/sort';
 import { offersActions, offersSelectors } from '@store/slices/offers';
+import Loader from '@components/loader/loader';
 
 function MainPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -17,6 +18,7 @@ function MainPage(): JSX.Element {
   let selectedOffers = useAppSelector(offersSelectors.selectOffersByLocation);
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
   const [activeSortType, setActiveSortType] = useState(SortTypeOption.Popular);
+  const isDataLoading = useAppSelector(offersSelectors.selectLoadingStatus);
 
   const handleLocationChange = (location: string) => {
     dispatch(offersActions.setLocation(location));
@@ -32,6 +34,12 @@ function MainPage(): JSX.Element {
     case SortTypeOption.TopRatedFirst:
       selectedOffers = [...selectedOffers].sort((a, b) => b.rating - a.rating);
       break;
+  }
+
+  if (isDataLoading) {
+    return (
+      <Loader />
+    );
   }
 
   return (

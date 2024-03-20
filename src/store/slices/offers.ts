@@ -1,16 +1,23 @@
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import { LOCATIONS } from '@const';
 import { Offer } from '@type/offer';
+import { Comment } from '@type/comment';
 
 type OffersState = {
   location: string;
   offers: Offer[];
+  nearByOffers: Offer[];
+  offer: Offer | null;
+  comments: Comment[];
   isDataLoading: boolean;
 }
 
 const initialState: OffersState = {
   location: LOCATIONS[0],
   offers: [],
+  nearByOffers: [],
+  offer: null,
+  comments: [],
   isDataLoading: false,
 };
 
@@ -26,11 +33,23 @@ const offersSlice = createSlice({
     },
     loadOffers: (state, action: PayloadAction<Offer[]>) => {
       state.offers = action.payload;
+    },
+    loadOffer: (state, action: PayloadAction<Offer>) => {
+      state.offer = action.payload;
+    },
+    loadNearbyOffers: (state, action: PayloadAction<Offer[]>) => {
+      state.nearByOffers = action.payload;
+    },
+    loadComments: (state, action: PayloadAction<Comment[]>) => {
+      state.comments = action.payload;
     }
   },
   selectors: {
     selectLocation: (state: OffersState) => state.location,
     selectOffers: (state: OffersState) => state.offers,
+    selectOffer: (state: OffersState) => state.offer,
+    selectNearByOffers: (state: OffersState) => state.nearByOffers,
+    selectComments: (state: OffersState) => state.comments,
     selectLoadingStatus: (state: OffersState) => state.isDataLoading
   }
 });

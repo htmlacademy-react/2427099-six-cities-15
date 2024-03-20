@@ -5,13 +5,8 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import App from './app';
-import comments from './mocks/comments';
 import { store } from './store';
-import { checkAuthAction, fetchOffersAction } from '@store/api-actions';
 import 'react-toastify/dist/ReactToastify.css';
-
-store.dispatch(checkAuthAction());
-store.dispatch(fetchOffersAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -23,7 +18,7 @@ root.render(
       <BrowserRouter>
         <Provider store={store}>
           <ToastContainer />
-          <App comments={comments}/>
+          <App />
         </Provider>
       </BrowserRouter>
     </HelmetProvider>

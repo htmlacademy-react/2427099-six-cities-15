@@ -8,6 +8,7 @@ import { Auth } from '@type/auth';
 import { authActions } from './slices/auth';
 import { User } from '@type/user';
 import { dropToken, saveToken } from '@services/token';
+import { Comment } from '@type/comment';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -23,6 +24,44 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
   }
 );
 
+export const fetchOfferByIdAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchOfferById',
+  async (offerId, {dispatch, extra: api}) => {
+    dispatch(offersActions.setLoadingStatus(true));
+    const { data } = await api.get<Offer>(`${ApiRoute.Offers}/${offerId}`);
+    dispatch(offersActions.setLoadingStatus(false));
+    dispatch(offersActions.loadOffer(data));
+  }
+);
+
+export const fetchNearByOffersAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchNearByOffers',
+  async (offerId, {dispatch, extra: api}) => {
+    const { data } = await api.get<Offer[]>(`${ApiRoute.Offers}/${offerId}/nearby`);
+    dispatch(offersActions.loadNearbyOffers(data));
+  }
+);
+
+export const fetchCommentsAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchComments',
+  async (offerId, {dispatch, extra: api}) => {
+    const { data } = await api.get<Comment[]>(`${ApiRoute.Comments}/${offerId}`);
+    dispatch(offersActions.loadComments(data));
+  }
+);
+
 export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   state: State;
@@ -30,8 +69,8 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
 }>(
   'user/checkAuth',
   async (_arg, {dispatch, extra: api}) => {
-    await api.get(ApiRoute.Login);
     try {
+      await api.get(ApiRoute.Login);
       dispatch(authActions.requireAuthorization(AuthorizationStatus.Auth));
     } catch {
       dispatch(authActions.requireAuthorization(AuthorizationStatus.NoAuth));
