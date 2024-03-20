@@ -29,7 +29,7 @@ function OfferPage({ comments }: TOfferPageProps): JSX.Element {
   const nearOffersAndCurrent = [offerInfo, ...nearOffers];
 
   return (
-    <Container classMain="page__main--offer">
+    <Container isLoginNav classMain="page__main--offer">
       <Helmet>
         <title>6 cities: offer</title>
       </Helmet>
