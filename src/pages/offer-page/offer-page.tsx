@@ -11,12 +11,14 @@ import { capitalizeFirstLetter, getRating } from '@utils/common';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { offersSelectors } from '@store/slices/offers';
 import { fetchCommentsAction, fetchNearByOffersAction, fetchOfferByIdAction } from '@store/api-actions';
-import { COMMENTS_COUNT, NEAR_OFFERS_COUNT } from '@const';
+import { AuthorizationStatus, COMMENTS_COUNT, NEAR_OFFERS_COUNT } from '@const';
 import Loader from '@components/loader/loader';
+import { authSelectors } from '@store/slices/auth';
 
 function OfferPage(): JSX.Element | undefined {
   const { offerId } = useParams();
   const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(authSelectors.selectAuthorizationStatus);
   const isDataLoading = useAppSelector(offersSelectors.selectLoadingStatus);
   const offerInfo = useAppSelector(offersSelectors.selectOffer);
   const nearOffers = useAppSelector(offersSelectors.selectNearByOffers);
@@ -117,7 +119,9 @@ function OfferPage(): JSX.Element | undefined {
             <section className="offer__reviews reviews">
               <h2 className="reviews__title">Reviews · <span className="reviews__amount">{comments.length}</span></h2>
               <ListComments comments={tenComments}/>
-              <OfferCommentForm />
+              {
+                authorizationStatus === AuthorizationStatus.Auth && <OfferCommentForm />
+              }
             </section>
           </div>
         </div>
