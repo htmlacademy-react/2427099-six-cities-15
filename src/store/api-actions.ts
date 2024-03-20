@@ -49,6 +49,7 @@ export const loginAction = createAsyncThunk<void, Auth, {
     const { data } = await api.post<User>(ApiRoute.Login, {email, password});
     saveToken(data.token);
     dispatch(authActions.requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(authActions.setUserData(data));
   }
 );
 
@@ -62,5 +63,6 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(ApiRoute.Logout);
     dropToken();
     dispatch(authActions.requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(authActions.setUserData(null));
   }
 );
