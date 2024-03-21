@@ -1,12 +1,19 @@
-import { ChangeEvent, Fragment, useState } from 'react';
+import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
 import { RATINGS } from '@const';
+import { useAppDispatch } from '@hooks/index';
+import { addCommentAction } from '@store/api-actions';
+
+type TOfferFromProps = {
+  offerId: string;
+}
 
 type TFormData = {
   review: string;
   rating: number;
 }
 
-function OfferCommentForm(): JSX.Element {
+function OfferCommentForm({ offerId }: TOfferFromProps): JSX.Element {
+  const dispatch = useAppDispatch();
   const [reviewData, setReviewData] = useState<TFormData>({
     rating: 0,
     review: '',
@@ -18,8 +25,23 @@ function OfferCommentForm(): JSX.Element {
     setReviewData({...reviewData, [name]: newValue});
   };
 
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    dispatch(addCommentAction({
+      offerId: offerId,
+      comment: reviewData.review,
+      rating: reviewData.rating,
+    }));
+
+    setReviewData({
+      rating: 0,
+      review: '',
+    });
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {
@@ -28,7 +50,6 @@ function OfferCommentForm(): JSX.Element {
               <input
                 className="form__rating-input visually-hidden"
                 name="rating"
-                // defaultValue={rating.value}
                 id={`${rating.value}-stars`}
                 type="radio"
                 value={rating.value}
@@ -55,7 +76,7 @@ function OfferCommentForm(): JSX.Element {
         <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit">Submit</button>
       </div>
     </form>
   );

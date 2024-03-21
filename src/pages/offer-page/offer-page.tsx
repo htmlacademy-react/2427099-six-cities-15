@@ -14,6 +14,7 @@ import { fetchCommentsAction, fetchNearByOffersAction, fetchOfferByIdAction } fr
 import { AuthorizationStatus, COMMENTS_COUNT, NEAR_OFFERS_COUNT } from '@const';
 import Loader from '@components/loader/loader';
 import { authSelectors } from '@store/slices/auth';
+import NotFoundPage from '@pages/not-found-page/not-found-page';
 
 function OfferPage(): JSX.Element | undefined {
   const { offerId } = useParams();
@@ -30,13 +31,15 @@ function OfferPage(): JSX.Element | undefined {
     dispatch(fetchCommentsAction(offerId as string));
   }, [dispatch, offerId]);
 
-  if (!offerInfo) {
-    return;
-  }
-
   if (isDataLoading) {
     return (
       <Loader />
+    );
+  }
+
+  if (!offerInfo) {
+    return (
+      <NotFoundPage />
     );
   }
 
@@ -120,7 +123,7 @@ function OfferPage(): JSX.Element | undefined {
               <h2 className="reviews__title">Reviews · <span className="reviews__amount">{comments.length}</span></h2>
               <ListComments comments={tenComments}/>
               {
-                authorizationStatus === AuthorizationStatus.Auth && <OfferCommentForm />
+                authorizationStatus === AuthorizationStatus.Auth && <OfferCommentForm offerId={offerId ?? ''}/>
               }
             </section>
           </div>

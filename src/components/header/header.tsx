@@ -41,7 +41,7 @@ function Header({ isLoginNav }: THeaderProps): JSX.Element {
                           evt.preventDefault();
                           dispatch(logoutAction());
                         }}
-                        to={AppRoute.Root}
+                        to="#"
                       >
                         <span className="header__signout">Sign out</span>
                       </Link>
