@@ -13,6 +13,7 @@ export enum ApiRoute {
   Offers = '/offers',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments',
 }
 
 export enum AuthorizationStatus {
@@ -23,6 +24,7 @@ export enum AuthorizationStatus {
 
 export const TOTAL_RAITING_STATUS = 5;
 export const NEAR_OFFERS_COUNT = 3;
+export const COMMENTS_COUNT = 10;
 
 export const RATINGS = [
   { value: 5, title: 'perfect' },

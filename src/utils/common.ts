@@ -35,5 +35,5 @@ export function formatDateToISO(date: string): string {
 }
 
 export function sortCommentsByDate(comments: Comment[]): Comment[] {
-  return comments.sort((a, b) => dayjs(a.date).diff(dayjs(b.date)));
+  return [...comments].sort((a, b) => dayjs(b.date).diff(dayjs(a.date)));
 }

@@ -1,32 +1,51 @@
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
+import { useEffect } from 'react';
 import Container from '@components/container/container';
 import OfferCommentForm from '@components/offer-comment-form/offer-comment-form';
 import ListComments from '@components/list-comments/list-comments';
 import Map from '@components/map/map';
 import ListOffers from '@components/list-offers/list-offers';
-import { Comment } from '@type/comment';
 import { capitalizeFirstLetter, getRating } from '@utils/common';
-import { NEAR_OFFERS_COUNT } from '@const';
-import { useAppSelector } from '@hooks/index';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { offersSelectors } from '@store/slices/offers';
+import { fetchCommentsAction, fetchNearByOffersAction, fetchOfferByIdAction } from '@store/api-actions';
+import { AuthorizationStatus, COMMENTS_COUNT, NEAR_OFFERS_COUNT } from '@const';
+import Loader from '@components/loader/loader';
+import { authSelectors } from '@store/slices/auth';
+import NotFoundPage from '@pages/not-found-page/not-found-page';
 
-type TOfferPageProps = {
-  comments: Comment[];
-}
-
-function OfferPage({ comments }: TOfferPageProps): JSX.Element {
+function OfferPage(): JSX.Element | undefined {
   const { offerId } = useParams();
-  const offers = useAppSelector(offersSelectors.selectOffers);
-  const offerInfo = offers.find((offer) => offer.id === offerId);
+  const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(authSelectors.selectAuthorizationStatus);
+  const isDataLoading = useAppSelector(offersSelectors.selectLoadingStatus);
+  const offerInfo = useAppSelector(offersSelectors.selectOffer);
+  const nearOffers = useAppSelector(offersSelectors.selectNearByOffers);
+  const comments = useAppSelector(offersSelectors.selectComments);
 
-  if (!offerInfo) {
-    throw new Error(`Offer with id ${offerId} not found`);
+  useEffect(() => {
+    dispatch(fetchOfferByIdAction(offerId as string));
+    dispatch(fetchNearByOffersAction(offerId as string));
+    dispatch(fetchCommentsAction(offerId as string));
+  }, [dispatch, offerId]);
+
+  if (isDataLoading) {
+    return (
+      <Loader />
+    );
   }
 
-  const nearOffers = offers.slice(0, NEAR_OFFERS_COUNT);
-  const nearOffersAndCurrent = [offerInfo, ...nearOffers];
+  if (!offerInfo) {
+    return (
+      <NotFoundPage />
+    );
+  }
+
+  const threeNearOffers = nearOffers.slice(0, NEAR_OFFERS_COUNT);
+  const nearOffersAndCurrent = [offerInfo, ...threeNearOffers];
+  const tenComments = comments.slice(0, COMMENTS_COUNT);
 
   return (
     <Container isLoginNav classMain="page__main--offer">
@@ -102,8 +121,10 @@ function OfferPage({ comments }: TOfferPageProps): JSX.Element {
             </div>
             <section className="offer__reviews reviews">
               <h2 className="reviews__title">Reviews · <span className="reviews__amount">{comments.length}</span></h2>
-              <ListComments comments={comments}/>
-              <OfferCommentForm />
+              <ListComments comments={tenComments}/>
+              {
+                authorizationStatus === AuthorizationStatus.Auth && <OfferCommentForm offerId={offerId ?? ''}/>
+              }
             </section>
           </div>
         </div>
@@ -112,7 +133,7 @@ function OfferPage({ comments }: TOfferPageProps): JSX.Element {
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <ListOffers offers={nearOffers} listBlock='near-places__list' block='near-places' />
+          <ListOffers offers={threeNearOffers} listBlock='near-places__list' block='near-places' />
         </section>
       </div>
     </Container>

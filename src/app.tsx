@@ -6,24 +6,17 @@ import LoginPage from '@pages/login-page/login-page';
 import FavoritesPage from '@pages/favorites-page/favorites-page';
 import OfferPage from '@pages/offer-page/offer-page';
 import ProtectedRoute from '@components/protected-route/protected-route';
-import { Comment } from '@type/comment';
-import { useAppSelector } from './hooks';
-import { offersSelectors } from '@store/slices/offers';
-import Loader from '@components/loader/loader';
+import { useAppDispatch } from './hooks';
+import { useEffect } from 'react';
+import { checkAuthAction, fetchOffersAction } from '@store/api-actions';
 
-type TAppProps = {
-  comments: Comment[];
-}
+export default function App(): JSX.Element {
+  const dispatch = useAppDispatch();
 
-export default function App({ comments }: TAppProps): JSX.Element {
-
-  const isDataLoading = useAppSelector(offersSelectors.selectLoadingStatus);
-
-  if (isDataLoading) {
-    return (
-      <Loader />
-    );
-  }
+  useEffect(() => {
+    dispatch(checkAuthAction());
+    dispatch(fetchOffersAction());
+  }, [dispatch]);
 
   return (
     <Routes>
@@ -41,7 +34,7 @@ export default function App({ comments }: TAppProps): JSX.Element {
       />
       <Route
         path={`${AppRoute.Offer}/:offerId`}
-        element={<OfferPage comments={comments}/>}
+        element={<OfferPage />}
       />
       <Route
         path='*'
