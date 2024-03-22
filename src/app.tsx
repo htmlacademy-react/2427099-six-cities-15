@@ -10,14 +10,18 @@ import LoginPage from '@pages/login-page/login-page';
 import FavoritesPage from '@pages/favorites-page/favorites-page';
 import OfferPage from '@pages/offer-page/offer-page';
 import ProtectedRoute from '@components/protected-route/protected-route';
+import { getToken } from '@services/token';
 
 export default function App(): JSX.Element {
   const dispatch = useAppDispatch();
+  const token = getToken();
 
   useEffect(() => {
-    dispatch(checkAuthAction());
+    if (token) {
+      dispatch(checkAuthAction());
+    }
     dispatch(fetchOffersAction());
-  }, [dispatch]);
+  }, [token, dispatch]);
 
   return (
     <Routes>
