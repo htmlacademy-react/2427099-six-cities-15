@@ -43,7 +43,12 @@ function MainPage(): JSX.Element {
   }
 
   return (
-    <Container isLoginNav extraClass='page--gray page--main' classMain='page__main--index'>
+    <Container
+      isLoginNav
+      extraClass='page--gray page--main'
+      classMain='page__main--index'
+      emptyClass={selectedOffers.length === 0 ? 'page__main--index-empty' : ''}
+    >
       <Helmet>
         <title>6 cities</title>
       </Helmet>

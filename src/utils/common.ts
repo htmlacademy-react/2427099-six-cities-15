@@ -9,7 +9,8 @@ export function getImageSize (size : Size) {
 }
 
 export function getRating(number: number) {
-  return (number / TOTAL_RAITING_STATUS) * 100;
+  const numberRound = Math.round(number);
+  return (numberRound / TOTAL_RAITING_STATUS) * 100;
 }
 
 export function isAuth(status: AuthorizationStatus): boolean {
