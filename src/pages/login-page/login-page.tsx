@@ -3,8 +3,8 @@ import {useRef, FormEvent} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Container from '@components/container/container';
 import { useAppDispatch } from '@hooks/index';
-import { loginAction } from '@store/api-actions';
 import { AppRoute } from '@const';
+import { loginAction } from '@store/thunks/auth';
 
 function LoginPage(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);

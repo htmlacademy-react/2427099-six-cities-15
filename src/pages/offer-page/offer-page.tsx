@@ -2,28 +2,30 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import { useEffect } from 'react';
+import { capitalizeFirstLetter, getRating } from '@utils/common';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { AuthorizationStatus, COMMENTS_COUNT, NEAR_OFFERS_COUNT, RequestStatus } from '@const';
+import { authSelectors } from '@store/slices/auth';
+import { fetchCommentsAction } from '@store/thunks/comments';
+import { offerSelectors } from '@store/slices/offer';
+import { fetchNearByOffersAction, fetchOfferByIdAction } from '@store/thunks/offers';
+import { commentsSelectors } from '@store/slices/comments';
 import Container from '@components/container/container';
 import OfferCommentForm from '@components/offer-comment-form/offer-comment-form';
 import ListComments from '@components/list-comments/list-comments';
 import Map from '@components/map/map';
 import ListOffers from '@components/list-offers/list-offers';
-import { capitalizeFirstLetter, getRating } from '@utils/common';
-import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { offersSelectors } from '@store/slices/offers';
-import { fetchCommentsAction, fetchNearByOffersAction, fetchOfferByIdAction } from '@store/api-actions';
-import { AuthorizationStatus, COMMENTS_COUNT, NEAR_OFFERS_COUNT } from '@const';
-import Loader from '@components/loader/loader';
-import { authSelectors } from '@store/slices/auth';
 import NotFoundPage from '@pages/not-found-page/not-found-page';
+import Loader from '@components/loader/loader';
 
 function OfferPage(): JSX.Element | undefined {
   const { offerId } = useParams();
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(authSelectors.selectAuthorizationStatus);
-  const isDataLoading = useAppSelector(offersSelectors.selectLoadingStatus);
-  const offerInfo = useAppSelector(offersSelectors.selectOffer);
-  const nearOffers = useAppSelector(offersSelectors.selectNearByOffers);
-  const comments = useAppSelector(offersSelectors.selectComments);
+  const status = useAppSelector(offerSelectors.selectOfferStatus);
+  const offerInfo = useAppSelector(offerSelectors.selectOffer);
+  const nearOffers = useAppSelector(offerSelectors.selectNearByOffers);
+  const comments = useAppSelector(commentsSelectors.selectComments);
 
   useEffect(() => {
     dispatch(fetchOfferByIdAction(offerId as string));
@@ -31,13 +33,13 @@ function OfferPage(): JSX.Element | undefined {
     dispatch(fetchCommentsAction(offerId as string));
   }, [dispatch, offerId]);
 
-  if (isDataLoading) {
+  if (status === RequestStatus.Loading) {
     return (
       <Loader />
     );
   }
 
-  if (!offerInfo) {
+  if (status === RequestStatus.Failed || !offerInfo) {
     return (
       <NotFoundPage />
     );

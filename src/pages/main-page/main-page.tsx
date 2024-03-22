@@ -4,7 +4,7 @@ import Container from '@components/container/container';
 import { Offer } from '@type/offer';
 import ListOffers from '@components/list-offers/list-offers';
 import Map from '@components/map/map';
-import { LOCATIONS, SortTypeOption } from '@const';
+import { LOCATIONS, RequestStatus, SortTypeOption } from '@const';
 import Location from '@components/location/location';
 import MainEmpty from '@components/main-empty/main-empty';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
@@ -18,7 +18,7 @@ function MainPage(): JSX.Element {
   let selectedOffers = useAppSelector(offersSelectors.selectOffersByLocation);
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
   const [activeSortType, setActiveSortType] = useState(SortTypeOption.Popular);
-  const isDataLoading = useAppSelector(offersSelectors.selectLoadingStatus);
+  const status = useAppSelector(offersSelectors.selectStatus);
 
   const handleLocationChange = (location: string) => {
     dispatch(offersActions.setLocation(location));
@@ -36,7 +36,7 @@ function MainPage(): JSX.Element {
       break;
   }
 
-  if (isDataLoading) {
+  if (status === RequestStatus.Loading) {
     return (
       <Loader />
     );

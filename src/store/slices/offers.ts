@@ -1,56 +1,44 @@
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
-import { LOCATIONS } from '@const';
+import { LOCATIONS, RequestStatus } from '@const';
 import { Offer } from '@type/offer';
-import { Comment } from '@type/comment';
+import { fetchOffersAction } from '@store/thunks/offers';
 
 type OffersState = {
   location: string;
   offers: Offer[];
-  nearByOffers: Offer[];
-  offer: Offer | null;
-  comments: Comment[];
-  isDataLoading: boolean;
+  status: RequestStatus;
 }
 
 const initialState: OffersState = {
   location: LOCATIONS[0],
   offers: [],
-  nearByOffers: [],
-  offer: null,
-  comments: [],
-  isDataLoading: false,
+  status: RequestStatus.Idle,
 };
 
 const offersSlice = createSlice({
+  extraReducers: (builder) =>
+    builder
+      .addCase(fetchOffersAction.pending, (state) => {
+        state.status = RequestStatus.Loading;
+      })
+      .addCase(fetchOffersAction.fulfilled, (state, action) => {
+        state.status = RequestStatus.Success;
+        state.offers = action.payload;
+      })
+      .addCase(fetchOffersAction.rejected, (state) => {
+        state.status = RequestStatus.Failed;
+      }),
   initialState,
   name: 'offers',
   reducers: {
     setLocation: (state, action: PayloadAction<string>) => {
       state.location = action.payload;
     },
-    setLoadingStatus: (state, action: PayloadAction<boolean>) => {
-      state.isDataLoading = action.payload;
-    },
-    loadOffers: (state, action: PayloadAction<Offer[]>) => {
-      state.offers = action.payload;
-    },
-    loadOffer: (state, action: PayloadAction<Offer>) => {
-      state.offer = action.payload;
-    },
-    loadNearbyOffers: (state, action: PayloadAction<Offer[]>) => {
-      state.nearByOffers = action.payload;
-    },
-    loadComments: (state, action: PayloadAction<Comment[]>) => {
-      state.comments = action.payload;
-    }
   },
   selectors: {
     selectLocation: (state: OffersState) => state.location,
     selectOffers: (state: OffersState) => state.offers,
-    selectOffer: (state: OffersState) => state.offer,
-    selectNearByOffers: (state: OffersState) => state.nearByOffers,
-    selectComments: (state: OffersState) => state.comments,
-    selectLoadingStatus: (state: OffersState) => state.isDataLoading
+    selectStatus: (state: OffersState) => state.status,
   }
 });
 

@@ -22,6 +22,8 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN'
 }
 
+export const enum RequestStatus { Idle, Loading, Success, Failed }
+
 export const TOTAL_RAITING_STATUS = 5;
 export const NEAR_OFFERS_COUNT = 3;
 export const COMMENTS_COUNT = 10;

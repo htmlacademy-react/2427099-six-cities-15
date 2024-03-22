@@ -30,7 +30,8 @@
       "@utils/*": ["./src/utils/*"],
       "@assets/*": ["./src/assets/*"],
       "@store/*": ["./src/store/*"],
-      "@services/*": ["./src/services/*"]
+      "@services/*": ["./src/services/*"],
+      "@thunks/*": ["./src/thunks/*"],
     }
   },
   "include": ["src", "vite.config.ts"],

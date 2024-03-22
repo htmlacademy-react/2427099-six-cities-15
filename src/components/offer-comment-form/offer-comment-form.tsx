@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
 import { RATINGS } from '@const';
 import { useAppDispatch } from '@hooks/index';
-import { addCommentAction } from '@store/api-actions';
+import { addCommentAction } from '@store/thunks/comments';
 
 type TOfferFromProps = {
   offerId: string;
