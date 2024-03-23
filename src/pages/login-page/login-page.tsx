@@ -1,9 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import {useRef, FormEvent} from 'react';
-import { useNavigate } from 'react-router-dom';
 import Container from '@components/container/container';
 import { useAppDispatch } from '@hooks/index';
-import { AppRoute } from '@const';
 import { loginAction } from '@store/thunks/auth';
 
 function LoginPage(): JSX.Element {
@@ -11,7 +9,6 @@ function LoginPage(): JSX.Element {
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -21,7 +18,6 @@ function LoginPage(): JSX.Element {
         email: loginRef.current.value,
         password: passwordRef.current.value
       }));
-      navigate(AppRoute.Root);
     }
   };
 
