@@ -7,13 +7,14 @@ type TContainerProps = {
   children: ReactNode;
   extraClass?: string;
   classMain?: string;
+  emptyClass?: string;
 }
 
-function Container({ isLoginNav, children, extraClass, classMain }: TContainerProps): JSX.Element {
+function Container({ isLoginNav, children, extraClass, classMain, emptyClass }: TContainerProps): JSX.Element {
   return (
     <div className={classNames('page', extraClass)}>
       <Header isLoginNav={isLoginNav}/>
-      <main className={classNames('page__main', classMain)}>
+      <main className={classNames('page__main', classMain, emptyClass)}>
         {children}
       </main>
     </div>

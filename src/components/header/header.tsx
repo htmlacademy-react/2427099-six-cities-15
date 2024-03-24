@@ -3,7 +3,7 @@ import { AppRoute, AuthorizationStatus } from '@const';
 import Logo from '../logo/logo';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { authSelectors } from '@store/slices/auth';
-import { logoutAction } from '@store/api-actions';
+import { logoutAction } from '@store/thunks/auth';
 
 type THeaderProps = {
   isLoginNav: boolean;

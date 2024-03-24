@@ -1,7 +1,9 @@
 import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
-import { RATINGS } from '@const';
-import { useAppDispatch } from '@hooks/index';
-import { addCommentAction } from '@store/api-actions';
+import { RATINGS, RequestStatus } from '@const';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { addCommentAction } from '@store/thunks/comments';
+import { commentsSelectors } from '@store/slices/comments';
+import Loader from '@components/loader/loader';
 
 type TOfferFromProps = {
   offerId: string;
@@ -14,6 +16,7 @@ type TFormData = {
 
 function OfferCommentForm({ offerId }: TOfferFromProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const status = useAppSelector(commentsSelectors.selectCommentsStatus);
   const [reviewData, setReviewData] = useState<TFormData>({
     rating: 0,
     review: '',
@@ -30,14 +33,22 @@ function OfferCommentForm({ offerId }: TOfferFromProps): JSX.Element {
 
     dispatch(addCommentAction({
       offerId: offerId,
-      comment: reviewData.review,
-      rating: reviewData.rating,
+      body: {
+        comment: reviewData.review,
+        rating: reviewData.rating,
+      }
     }));
 
-    setReviewData({
-      rating: 0,
-      review: '',
-    });
+    if (status === RequestStatus.Loading) {
+      <Loader />;
+    }
+
+    if (status === RequestStatus.Success) {
+      setReviewData({
+        rating: 0,
+        review: '',
+      });
+    }
   };
 
   return (
@@ -54,6 +65,8 @@ function OfferCommentForm({ offerId }: TOfferFromProps): JSX.Element {
                 type="radio"
                 value={rating.value}
                 onChange={handleFieldChange}
+                checked={+rating === rating.value}
+                disabled={status === RequestStatus.Loading}
               />
               <label htmlFor={`${rating.value}-stars`} className="reviews__rating-label form__rating-label" title={rating.title}>
                 <svg className="form__star-image" width={37} height={33}>
@@ -71,12 +84,19 @@ function OfferCommentForm({ offerId }: TOfferFromProps): JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={handleFieldChange}
         value={reviewData.review}
+        disabled={status === RequestStatus.Loading}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit">Submit</button>
+        <button
+          className="reviews__submit form__submit button"
+          type="submit"
+          disabled={status === RequestStatus.Loading}
+        >
+          Submit
+        </button>
       </div>
     </form>
   );

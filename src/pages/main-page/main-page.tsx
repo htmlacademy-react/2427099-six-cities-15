@@ -1,49 +1,45 @@
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import Container from '@components/container/container';
 import { Offer } from '@type/offer';
 import ListOffers from '@components/list-offers/list-offers';
 import Map from '@components/map/map';
-import { LOCATIONS, SortTypeOption } from '@const';
+import { LOCATIONS, RequestStatus, SortTypeOption } from '@const';
 import Location from '@components/location/location';
 import MainEmpty from '@components/main-empty/main-empty';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import Sort from '@components/sort/sort';
 import { offersActions, offersSelectors } from '@store/slices/offers';
 import Loader from '@components/loader/loader';
+import { sortOfferByType } from '@utils/sortType';
 
 function MainPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const activeLocation = useAppSelector(offersSelectors.selectLocation);
-  let selectedOffers = useAppSelector(offersSelectors.selectOffersByLocation);
+  const selectedOffers = useAppSelector(offersSelectors.selectOffersByLocation);
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
   const [activeSortType, setActiveSortType] = useState(SortTypeOption.Popular);
-  const isDataLoading = useAppSelector(offersSelectors.selectLoadingStatus);
+  const status = useAppSelector(offersSelectors.selectStatus);
 
-  const handleLocationChange = (location: string) => {
+  const handleLocationChange = useCallback((location: string) => {
     dispatch(offersActions.setLocation(location));
-  };
+  }, [dispatch]);
 
-  switch (activeSortType) {
-    case SortTypeOption.PriceLowToHigh:
-      selectedOffers = [...selectedOffers].sort((a, b) => a.price - b.price);
-      break;
-    case SortTypeOption.PriceHighToLow:
-      selectedOffers = [...selectedOffers].sort((a, b) => b.price - a.price);
-      break;
-    case SortTypeOption.TopRatedFirst:
-      selectedOffers = [...selectedOffers].sort((a, b) => b.rating - a.rating);
-      break;
-  }
+  const sortedOffers = sortOfferByType({activeSortType, selectedOffers});
 
-  if (isDataLoading) {
+  if (status === RequestStatus.Loading) {
     return (
       <Loader />
     );
   }
 
   return (
-    <Container isLoginNav extraClass='page--gray page--main' classMain='page__main--index'>
+    <Container
+      isLoginNav
+      extraClass='page--gray page--main'
+      classMain='page__main--index'
+      emptyClass={sortedOffers.length === 0 ? 'page__main--index-empty' : ''}
+    >
       <Helmet>
         <title>6 cities</title>
       </Helmet>
@@ -62,17 +58,17 @@ function MainPage(): JSX.Element {
           </ul>
         </section>
       </div>
-      {selectedOffers.length === 0 ? <MainEmpty /> :
+      {sortedOffers.length === 0 ? <MainEmpty /> :
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {selectedOffers.length} {selectedOffers.length === 1 ? 'place' : 'places'} to stay in {selectedOffers[0].city.name}
+                {sortedOffers.length} {sortedOffers.length === 1 ? 'place' : 'places'} to stay in {sortedOffers[0].city.name}
               </b>
               <Sort currentType={activeSortType} setter={setActiveSortType} />
               <ListOffers
-                offers={selectedOffers}
+                offers={sortedOffers}
                 onOfferHover={setSelectedOffer}
                 listBlock='cities__places-list'
                 extraClass='tabs__content'
@@ -80,7 +76,7 @@ function MainPage(): JSX.Element {
               />
             </section>
             <div className="cities__right-section">
-              <Map extraClass='cities' city={selectedOffers[0].city} offers={selectedOffers} selectedOfferId={selectedOffer?.id}/>
+              <Map extraClass='cities' city={sortedOffers[0].city} offers={sortedOffers} selectedOfferId={selectedOffer?.id}/>
             </div>
           </div>
         </div>}

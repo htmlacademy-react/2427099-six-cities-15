@@ -1,22 +1,27 @@
 import { Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
 import { AppRoute } from '@const';
+import { useAppDispatch } from './hooks';
+import { fetchOffersAction } from '@store/thunks/offers';
+import { checkAuthAction } from '@store/thunks/auth';
 import MainPage from '@pages/main-page/main-page';
 import NotFoundPage from '@pages/not-found-page/not-found-page';
 import LoginPage from '@pages/login-page/login-page';
 import FavoritesPage from '@pages/favorites-page/favorites-page';
 import OfferPage from '@pages/offer-page/offer-page';
 import ProtectedRoute from '@components/protected-route/protected-route';
-import { useAppDispatch } from './hooks';
-import { useEffect } from 'react';
-import { checkAuthAction, fetchOffersAction } from '@store/api-actions';
+import { getToken } from '@services/token';
 
 export default function App(): JSX.Element {
   const dispatch = useAppDispatch();
+  const token = getToken();
 
   useEffect(() => {
-    dispatch(checkAuthAction());
+    if (token) {
+      dispatch(checkAuthAction());
+    }
     dispatch(fetchOffersAction());
-  }, [dispatch]);
+  }, [token, dispatch]);
 
   return (
     <Routes>
