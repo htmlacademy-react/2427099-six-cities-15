@@ -1,9 +1,8 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosInstance } from 'axios';
 import { Offer } from '@type/offer';
 import { ApiRoute } from '@const';
+import { createAppAsyncThunk } from '@hooks/index';
 
-export const fetchOffersAction = createAsyncThunk<Offer[], undefined, { extra: AxiosInstance }>(
+export const fetchOffersAction = createAppAsyncThunk<Offer[], undefined>(
   'data/fetchOffers',
   async (_arg, { extra: api }) => {
     const { data } = await api.get<Offer[]>(ApiRoute.Offers);
@@ -11,7 +10,7 @@ export const fetchOffersAction = createAsyncThunk<Offer[], undefined, { extra: A
   }
 );
 
-export const fetchOfferByIdAction = createAsyncThunk<Offer, string, { extra: AxiosInstance }>(
+export const fetchOfferByIdAction = createAppAsyncThunk<Offer, string>(
   'data/fetchOfferById',
   async (offerId, { extra: api }) => {
     const { data } = await api.get<Offer>(`${ApiRoute.Offers}/${offerId}`);
@@ -19,7 +18,7 @@ export const fetchOfferByIdAction = createAsyncThunk<Offer, string, { extra: Axi
   }
 );
 
-export const fetchNearByOffersAction = createAsyncThunk<Offer[], string, { extra: AxiosInstance }>(
+export const fetchNearByOffersAction = createAppAsyncThunk<Offer[], string>(
   'data/fetchNearByOffers',
   async (offerId, { extra: api }) => {
     const { data } = await api.get<Offer[]>(`${ApiRoute.Offers}/${offerId}/nearby`);

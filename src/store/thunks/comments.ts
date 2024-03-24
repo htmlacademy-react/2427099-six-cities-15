@@ -1,7 +1,6 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosInstance } from 'axios';
 import { ApiRoute } from '@const';
 import { Comment } from '@type/comment';
+import { createAppAsyncThunk } from '@hooks/index';
 
 
 type CommentProps = {
@@ -12,7 +11,7 @@ type CommentProps = {
   offerId: string;
 }
 
-export const fetchCommentsAction = createAsyncThunk<Comment[], string, { extra: AxiosInstance }>(
+export const fetchCommentsAction = createAppAsyncThunk<Comment[], string>(
   'data/fetchComments',
   async (offerId, { extra: api }) => {
     const { data } = await api.get<Comment[]>(`${ApiRoute.Comments}/${offerId}`);
@@ -20,7 +19,7 @@ export const fetchCommentsAction = createAsyncThunk<Comment[], string, { extra: 
   }
 );
 
-export const addCommentAction = createAsyncThunk<Comment, CommentProps, { extra: AxiosInstance }>(
+export const addCommentAction = createAppAsyncThunk<Comment, CommentProps>(
   'data/addComment',
   async ({offerId, body}, { extra: api }) => {
     const { data } = await api.post<Comment>(`${ApiRoute.Comments}/${offerId}`, body);
