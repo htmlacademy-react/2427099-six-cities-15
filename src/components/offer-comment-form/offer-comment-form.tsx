@@ -49,13 +49,6 @@ function OfferCommentForm({ offerId }: TOfferFromProps): JSX.Element {
         review: '',
       });
     }
-
-    RATINGS.forEach((rating) => {
-      const input = document.getElementById(`${rating.value}-stars`) as HTMLInputElement;
-      if (input) {
-        input.checked = false;
-      }
-    });
   };
 
   return (
@@ -72,6 +65,7 @@ function OfferCommentForm({ offerId }: TOfferFromProps): JSX.Element {
                 type="radio"
                 value={rating.value}
                 onChange={handleFieldChange}
+                checked={+rating === rating.value}
                 disabled={status === RequestStatus.Loading}
               />
               <label htmlFor={`${rating.value}-stars`} className="reviews__rating-label form__rating-label" title={rating.title}>
