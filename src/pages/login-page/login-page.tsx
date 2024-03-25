@@ -3,12 +3,17 @@ import {useRef, FormEvent} from 'react';
 import Container from '@components/container/container';
 import { useAppDispatch } from '@hooks/index';
 import { loginAction } from '@store/thunks/auth';
+import { Link } from 'react-router-dom';
+import { AppRoute, LOCATIONS } from '@const';
+import { offersActions } from '@store/slices/offers';
+import { getRandomLocation } from '@utils/common';
 
 function LoginPage(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useAppDispatch();
+  const randomLocation = getRandomLocation(LOCATIONS);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -62,9 +67,9 @@ function LoginPage(): JSX.Element {
         </section>
         <section className="locations locations--login locations--current">
           <div className="locations__item">
-            <a className="locations__item-link" href="#">
-              <span>Amsterdam</span>
-            </a>
+            <Link className="locations__item-link" to={AppRoute.Root} onClick={() => dispatch(offersActions.setLocation(randomLocation))}>
+              <span>{randomLocation}</span>
+            </Link>
           </div>
         </section>
       </div>

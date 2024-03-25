@@ -14,7 +14,7 @@ export enum ApiRoute {
   Login = '/login',
   Logout = '/logout',
   Comments = '/comments',
-  Favorites = '/favorites'
+  Favorites = '/favorite'
 }
 
 export enum AuthorizationStatus {
@@ -28,6 +28,7 @@ export const enum RequestStatus { Idle, Loading, Success, Failed }
 export const TOTAL_RAITING_STATUS = 5;
 export const NEAR_OFFERS_COUNT = 3;
 export const COMMENTS_COUNT = 10;
+export const IMAGES_COUNT = 6;
 
 export const RATINGS = [
   { value: 5, title: 'perfect' },

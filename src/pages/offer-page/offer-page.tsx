@@ -1,15 +1,17 @@
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import { useEffect } from 'react';
 import { capitalizeFirstLetter, getRating } from '@utils/common';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { AuthorizationStatus, COMMENTS_COUNT, NEAR_OFFERS_COUNT, RequestStatus } from '@const';
+import { AppRoute, AuthorizationStatus, IMAGES_COUNT, NEAR_OFFERS_COUNT, RequestStatus } from '@const';
 import { authSelectors } from '@store/slices/auth';
 import { fetchCommentsAction } from '@store/thunks/comments';
 import { offerSelectors } from '@store/slices/offer';
 import { fetchNearByOffersAction, fetchOfferByIdAction } from '@store/thunks/offers';
 import { commentsSelectors } from '@store/slices/comments';
+import { changeFavoriteAction } from '@store/thunks/favorites';
+import { getToken } from '@services/token';
 import Container from '@components/container/container';
 import OfferCommentForm from '@components/offer-comment-form/offer-comment-form';
 import ListComments from '@components/list-comments/list-comments';
@@ -21,11 +23,13 @@ import Loader from '@components/loader/loader';
 function OfferPage(): JSX.Element | undefined {
   const { offerId } = useParams();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const authorizationStatus = useAppSelector(authSelectors.selectAuthorizationStatus);
   const status = useAppSelector(offerSelectors.selectOfferStatus);
   const offerInfo = useAppSelector(offerSelectors.selectOffer);
   const nearOffers = useAppSelector(offerSelectors.selectNearByOffers);
   const comments = useAppSelector(commentsSelectors.selectComments);
+  const token = getToken();
 
   useEffect(() => {
     dispatch(fetchOfferByIdAction(offerId as string));
@@ -45,9 +49,16 @@ function OfferPage(): JSX.Element | undefined {
     );
   }
 
+  const handleFavoriteChange = () => {
+    if (!token) {
+      return navigate(AppRoute.Login);
+    }
+
+    dispatch(changeFavoriteAction({offerId: offerInfo?.id, isFavorite: !offerInfo.isFavorite}));
+  };
+
   const threeNearOffers = nearOffers.slice(0, NEAR_OFFERS_COUNT);
   const nearOffersAndCurrent = [offerInfo, ...threeNearOffers];
-  const tenComments = comments.slice(0, COMMENTS_COUNT);
 
   return (
     <Container isLoginNav classMain="page__main--offer">
@@ -57,7 +68,7 @@ function OfferPage(): JSX.Element | undefined {
       <section className="offer">
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
-            {offerInfo?.images.map((image) => (
+            {offerInfo?.images && offerInfo?.images.slice(0, IMAGES_COUNT).map((image) => (
               <div className="offer__image-wrapper" key={image}>
                 <img className="offer__image" src={image} alt="Photo studio" />
               </div>
@@ -73,7 +84,11 @@ function OfferPage(): JSX.Element | undefined {
 
             <div className="offer__name-wrapper">
               <h1 className="offer__name">{offerInfo?.title}</h1>
-              <button className={classNames('offer__bookmark-button', 'button', {'offer__bookmark-button--active': offerInfo?.isFavorite})} type="button">
+              <button
+                className={classNames('offer__bookmark-button', 'button', {'offer__bookmark-button--active': offerInfo?.isFavorite})}
+                type="button"
+                onClick={handleFavoriteChange}
+              >
                 <svg className="offer__bookmark-icon" width={31} height={33}>
                   <use xlinkHref="#icon-bookmark" />
                 </svg>
@@ -123,7 +138,7 @@ function OfferPage(): JSX.Element | undefined {
             </div>
             <section className="offer__reviews reviews">
               <h2 className="reviews__title">Reviews · <span className="reviews__amount">{comments.length}</span></h2>
-              <ListComments comments={tenComments}/>
+              <ListComments comments={comments}/>
               {
                 authorizationStatus === AuthorizationStatus.Auth && <OfferCommentForm offerId={offerId ?? ''}/>
               }

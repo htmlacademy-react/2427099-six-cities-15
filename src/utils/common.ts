@@ -38,3 +38,8 @@ export function formatDateToISO(date: string): string {
 export function sortCommentsByDate(comments: Comment[]): Comment[] {
   return [...comments].sort((a, b) => dayjs(b.date).diff(dayjs(a.date)));
 }
+
+export function getRandomLocation(locations: string[]): string {
+  const randomIndex = Math.floor(Math.random() * locations.length);
+  return locations[randomIndex];
+}

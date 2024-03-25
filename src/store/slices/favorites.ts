@@ -27,7 +27,7 @@ const favoritesSlice = createSlice({
         state.status = RequestStatus.Loading;
       })
       .addCase(changeFavoriteAction.fulfilled, (state, action) => {
-        state.favoriteOffers = state.favoriteOffers.map((offer) => offer.id === action.payload.id ? action.payload : offer);
+        state.favoriteOffers = state.favoriteOffers.filter((offer) => offer.id !== action.payload.id);
         state.status = RequestStatus.Success;
       })
       .addCase(changeFavoriteAction.rejected, (state) => {
