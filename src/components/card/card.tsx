@@ -7,6 +7,7 @@ import { Size } from '@type/size';
 import { useAppDispatch } from '@hooks/index';
 import { changeFavoriteAction } from '@store/thunks/favorites';
 import { getToken } from '@services/token';
+import { memo } from 'react';
 
 type TCardProps = {
   offer: Offer;
@@ -84,4 +85,5 @@ function Card({ offer, block, size = 'large', onMouseOver }: TCardProps): JSX.El
   );
 }
 
-export default Card;
+const MemoizedCard = memo(Card);
+export default MemoizedCard;

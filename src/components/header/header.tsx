@@ -5,6 +5,7 @@ import { authSelectors } from '@store/slices/auth';
 import { logoutAction } from '@store/thunks/auth';
 import { favoritesSelectors } from '@store/slices/favorites';
 import Logo from '../logo/logo';
+import { memo } from 'react';
 
 type THeaderProps = {
   isLoginNav: boolean;
@@ -64,4 +65,5 @@ function Header({ isLoginNav }: THeaderProps): JSX.Element {
   );
 }
 
-export default Header;
+const MemoizedHeader = memo(Header);
+export default MemoizedHeader;

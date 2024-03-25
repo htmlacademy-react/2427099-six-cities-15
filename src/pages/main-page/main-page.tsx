@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Offer } from '@type/offer';
 import { LOCATIONS, RequestStatus, SortTypeOption } from '@const';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
@@ -25,7 +25,7 @@ function MainPage(): JSX.Element {
     dispatch(offersActions.setLocation(location));
   }, [dispatch]);
 
-  const sortedOffers = sortOfferByType({activeSortType, selectedOffers});
+  const sortedOffers = useMemo(() => sortOfferByType({activeSortType, selectedOffers}), [activeSortType, selectedOffers]);
 
   if (status === RequestStatus.Loading) {
     return (

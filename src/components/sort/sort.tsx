@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import classNames from 'classnames';
 import { SORT_TYPES, SortTypeOption } from '@const';
 import useBoolean from '@hooks/use-boolean';
@@ -57,4 +57,5 @@ function Sort({ currentType, setter }: TSortProps): JSX.Element {
   );
 }
 
-export default Sort;
+const MemoizedSort = memo(Sort);
+export default MemoizedSort;

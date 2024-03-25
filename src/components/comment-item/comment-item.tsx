@@ -1,5 +1,6 @@
 import { Comment } from '@type/comment';
 import { formatDateToISO, getRating, humanizeDate } from '@utils/common';
+import { memo } from 'react';
 
 type TCommentItemProps = {
   comment: Comment;
@@ -30,4 +31,5 @@ function CommentItem({ comment }: TCommentItemProps): JSX.Element {
   );
 }
 
-export default CommentItem;
+const MemorizedCommentItem = memo(CommentItem);
+export default MemorizedCommentItem;

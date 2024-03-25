@@ -1,5 +1,6 @@
 import { Offer } from '@type/offer';
 import Card from '../card/card';
+import { memo } from 'react';
 
 type TListOffers = {
   offers: Offer[];
@@ -17,4 +18,5 @@ function ListOffers({offers, onOfferHover, listBlock, extraClass, block}: TListO
   );
 }
 
-export default ListOffers;
+const MemoizedListOffers = memo(ListOffers);
+export default MemoizedListOffers;

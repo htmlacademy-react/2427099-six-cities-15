@@ -2,6 +2,7 @@ import { Comment } from '@type/comment';
 import { sortCommentsByDate } from '@utils/common';
 import CommentItem from '../comment-item/comment-item';
 import { COMMENTS_COUNT } from '@const';
+import { memo } from 'react';
 
 type TListCommentsProps = {
   comments: Comment[];
@@ -16,4 +17,5 @@ function ListComments({ comments }: TListCommentsProps): JSX.Element {
   );
 }
 
-export default ListComments;
+const MemorizedListComments = memo(ListComments);
+export default MemorizedListComments;
