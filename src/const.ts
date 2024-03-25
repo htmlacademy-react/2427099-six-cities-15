@@ -24,6 +24,7 @@ export enum AuthorizationStatus {
 }
 
 export const enum RequestStatus { Idle, Loading, Success, Failed }
+export const enum FavoriteStatus { Removed, Added }
 
 export const TOTAL_RAITING_STATUS = 5;
 export const NEAR_OFFERS_COUNT = 3;

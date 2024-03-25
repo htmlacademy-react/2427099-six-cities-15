@@ -3,9 +3,9 @@ import { AppRoute, AuthorizationStatus } from '@const';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { authSelectors } from '@store/slices/auth';
 import { logoutAction } from '@store/thunks/auth';
-import { favoritesSelectors } from '@store/slices/favorites';
 import Logo from '../logo/logo';
 import { memo } from 'react';
+import useFavoritesCount from '@hooks/use-favorites-count';
 
 type THeaderProps = {
   isLoginNav: boolean;
@@ -14,7 +14,7 @@ type THeaderProps = {
 function Header({ isLoginNav }: THeaderProps): JSX.Element {
   const authorizationStatus = useAppSelector(authSelectors.selectAuthorizationStatus);
   const user = useAppSelector(authSelectors.selectUserData);
-  const favoritesOffers = useAppSelector(favoritesSelectors.selectFavoriteOffers);
+  const favoriteCount = useFavoritesCount();
   const dispatch = useAppDispatch();
 
   return (
@@ -34,7 +34,7 @@ function Header({ isLoginNav }: THeaderProps): JSX.Element {
                         <div className="header__avatar-wrapper user__avatar-wrapper">
                         </div>
                         <span className="header__user-name user__name">{user?.email}</span>
-                        <span className="header__favorite-count">{favoritesOffers.length}</span>
+                        <span className="header__favorite-count">{favoriteCount}</span>
                       </Link>
                     </li>
                     <li className="header__nav-item">

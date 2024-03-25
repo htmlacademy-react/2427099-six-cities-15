@@ -1,24 +1,17 @@
 import { Helmet } from 'react-helmet-async';
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { useAppSelector } from '@hooks/index';
 import { favoritesSelectors } from '@store/slices/favorites';
-import { RequestStatus } from '@const';
-import { fetchFavoritesAction } from '@store/thunks/favorites';
 import Container from '@components/container/container';
 import FavoriteList from '@components/favorites-list/favorites-list';
 import FavoritesEmpty from '@components/favorites-empty/favorites-empty';
+import { RequestStatus } from '@const';
 import Loader from '@components/loader/loader';
 
 function FavoritesPage(): JSX.Element {
-  const dispatch = useAppDispatch();
   const favoriteOffers = useAppSelector(favoritesSelectors.selectFavoriteOffers);
-  const favoriteStatus = useAppSelector(favoritesSelectors.selectFavoritesStatus);
+  const status = useAppSelector(favoritesSelectors.selectFavoritesStatus);
 
-  useEffect(() => {
-    dispatch(fetchFavoritesAction());
-  }, [dispatch]);
-
-  if (favoriteStatus === RequestStatus.Loading) {
+  if (status === RequestStatus.Loading) {
     return <Loader />;
   }
 
@@ -28,7 +21,7 @@ function FavoritesPage(): JSX.Element {
         <title>6 cities: favorites</title>
       </Helmet>
       {
-        favoriteOffers?.length ? (
+        favoriteOffers?.length > 0 ? (
           <div className="page__favorites-container container">
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>

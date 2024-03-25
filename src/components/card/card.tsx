@@ -38,7 +38,7 @@ function Card({ offer, block, size = 'large', onMouseOver }: TCardProps): JSX.El
       return navigate(AppRoute.Login);
     }
 
-    dispatch(changeFavoriteAction({offerId: offer?.id, isFavorite: !offer.isFavorite}));
+    dispatch(changeFavoriteAction({offerId: offer?.id, status: Number(!offer.isFavorite)}));
   };
 
   return (

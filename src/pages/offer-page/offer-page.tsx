@@ -54,7 +54,7 @@ function OfferPage(): JSX.Element | undefined {
       return navigate(AppRoute.Login);
     }
 
-    dispatch(changeFavoriteAction({offerId: offerInfo?.id, isFavorite: !offerInfo.isFavorite}));
+    dispatch(changeFavoriteAction({offerId: offerInfo?.id, status: Number(!offerInfo.isFavorite)}));
   };
 
   const threeNearOffers = nearOffers.slice(0, NEAR_OFFERS_COUNT);

@@ -1,4 +1,4 @@
-import { RequestStatus } from '@const';
+import { FavoriteStatus, RequestStatus } from '@const';
 import { createSlice } from '@reduxjs/toolkit';
 import { changeFavoriteAction, fetchFavoritesAction } from '@store/thunks/favorites';
 import { Offer } from '@type/offer';
@@ -27,7 +27,13 @@ const favoritesSlice = createSlice({
         state.status = RequestStatus.Loading;
       })
       .addCase(changeFavoriteAction.fulfilled, (state, action) => {
-        state.favoriteOffers = state.favoriteOffers.filter((offer) => offer.id !== action.payload.id);
+        switch(action.payload.status) {
+          case FavoriteStatus.Added:
+            state.favoriteOffers.push(action.payload.offer);
+            break;
+          case FavoriteStatus.Removed:
+            state.favoriteOffers = state.favoriteOffers.filter((offer) => offer.id !== action.payload.offer.id);
+        }
         state.status = RequestStatus.Success;
       })
       .addCase(changeFavoriteAction.rejected, (state) => {

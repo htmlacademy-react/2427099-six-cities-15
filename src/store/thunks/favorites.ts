@@ -1,11 +1,16 @@
-import { ApiRoute } from '@const';
+import { ApiRoute, FavoriteStatus } from '@const';
 import { createAppAsyncThunk } from '@hooks/index';
 import { Offer } from '@type/offer';
 
 type FavoriteProps = {
   offerId: string;
-  isFavorite: boolean;
+  status: FavoriteStatus;
 };
+
+type ChangeResponse = {
+  offer: Offer;
+  status: FavoriteStatus;
+}
 
 export const fetchFavoritesAction = createAppAsyncThunk<Offer[], undefined>(
   'data/fetchFavorites',
@@ -15,10 +20,10 @@ export const fetchFavoritesAction = createAppAsyncThunk<Offer[], undefined>(
   }
 );
 
-export const changeFavoriteAction = createAppAsyncThunk<Offer, FavoriteProps>(
+export const changeFavoriteAction = createAppAsyncThunk<ChangeResponse, FavoriteProps>(
   'data/changeFavorite',
-  async ({offerId, isFavorite}, { extra: api }) => {
-    const { data } = await api.post<Offer>(`${ApiRoute.Favorites}/${offerId}/${isFavorite ? 1 : 0}`);
-    return data;
+  async ({offerId, status}, { extra: api }) => {
+    const { data } = await api.post<Offer>(`${ApiRoute.Favorites}/${offerId}/${status}`);
+    return { offer: data, status };
   }
 );
