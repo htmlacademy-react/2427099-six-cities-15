@@ -9,7 +9,7 @@ function FavoritesPage(): JSX.Element {
   const favoriteOffers = useAppSelector(favoritesSelectors.selectFavoriteOffers);
 
   return (
-    <Container isLoginNav classMain='page__main--favorites'>
+    <Container isLoginNav classMain='page__main--favorites' extraClass={favoriteOffers.length === 0 ? 'page--favorites-empty' : ''}>
       <Helmet>
         <title>6 cities: favorites</title>
       </Helmet>
