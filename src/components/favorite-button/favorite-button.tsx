@@ -1,6 +1,9 @@
-import { AppRoute } from '@const';
-import { useAppDispatch } from '@hooks/index';
+import { AppRoute, RequestStatus } from '@const';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { getToken } from '@services/token';
+import { favoritesSelectors } from '@store/slices/favorites';
+import { offerActions } from '@store/slices/offer';
+import { offersActions } from '@store/slices/offers';
 import { changeFavoriteAction } from '@store/thunks/favorites';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +20,7 @@ function FavoriteButton({ extraClass = 'place-card', isFavorite = false, offerId
   const token = getToken();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const status = useAppSelector(favoritesSelectors.selectFavoritesStatus);
   const bookmarksLabel = `${isFavorite ? 'In' : 'To'} bookmarks`;
   const buttonClass = `${extraClass}__bookmark-button`;
 
@@ -26,6 +30,11 @@ function FavoriteButton({ extraClass = 'place-card', isFavorite = false, offerId
     }
 
     dispatch(changeFavoriteAction({offerId, status: Number(!isFavorite)}));
+
+    if (status === RequestStatus.Success) {
+      dispatch(offersActions.updateOffers(offerId));
+      dispatch(offerActions.updateOffer(offerId));
+    }
   };
 
   return (
@@ -34,7 +43,7 @@ function FavoriteButton({ extraClass = 'place-card', isFavorite = false, offerId
       type="button"
       onClick={handleFavoriteChange}
     >
-      <svg className="place-card__bookmark-icon" width={width} height={height}>
+      <svg className={`${extraClass}__bookmark-icon`} width={width} height={height}>
         <use xlinkHref="#icon-bookmark" />
       </svg>
       <span className="visually-hidden">{bookmarksLabel}</span>

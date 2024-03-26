@@ -29,9 +29,11 @@ function OfferPage(): JSX.Element | undefined {
   const comments = useAppSelector(commentsSelectors.selectComments);
 
   useEffect(() => {
-    dispatch(fetchOfferByIdAction(offerId as string));
-    dispatch(fetchNearByOffersAction(offerId as string));
-    dispatch(fetchCommentsAction(offerId as string));
+    Promise.all([
+      dispatch(fetchOfferByIdAction(offerId as string)),
+      dispatch(fetchNearByOffersAction(offerId as string)),
+      dispatch(fetchCommentsAction(offerId as string))
+    ]);
   }, [dispatch, offerId]);
 
   if (status === RequestStatus.Loading) {

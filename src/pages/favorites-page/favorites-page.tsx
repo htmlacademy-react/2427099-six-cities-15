@@ -4,16 +4,9 @@ import { favoritesSelectors } from '@store/slices/favorites';
 import Container from '@components/container/container';
 import FavoriteList from '@components/favorites-list/favorites-list';
 import FavoritesEmpty from '@components/favorites-empty/favorites-empty';
-import { RequestStatus } from '@const';
-import Loader from '@components/loader/loader';
 
 function FavoritesPage(): JSX.Element {
   const favoriteOffers = useAppSelector(favoritesSelectors.selectFavoriteOffers);
-  const status = useAppSelector(favoritesSelectors.selectFavoritesStatus);
-
-  if (status === RequestStatus.Loading) {
-    return <Loader />;
-  }
 
   return (
     <Container isLoginNav classMain='page__main--favorites'>
