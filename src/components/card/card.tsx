@@ -1,13 +1,11 @@
 import classNames from 'classnames';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { capitalizeFirstLetter, getImageSize, getRating } from '@utils/common';
 import { AppRoute } from '@const';
 import { Offer } from '@type/offer';
 import { Size } from '@type/size';
-import { useAppDispatch } from '@hooks/index';
-import { changeFavoriteAction } from '@store/thunks/favorites';
-import { getToken } from '@services/token';
 import { memo } from 'react';
+import FavoriteButton from '@components/favorite-button/favorite-button';
 
 type TCardProps = {
   offer: Offer;
@@ -17,10 +15,6 @@ type TCardProps = {
 }
 
 function Card({ offer, block, size = 'large', onMouseOver }: TCardProps): JSX.Element {
-  const token = getToken();
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
   const handleOfferHover = () => {
     if(onMouseOver) {
       onMouseOver(offer);
@@ -31,14 +25,6 @@ function Card({ offer, block, size = 'large', onMouseOver }: TCardProps): JSX.El
     if(onMouseOver) {
       onMouseOver(null);
     }
-  };
-
-  const handleFavoriteChange = () => {
-    if (!token) {
-      return navigate(AppRoute.Login);
-    }
-
-    dispatch(changeFavoriteAction({offerId: offer?.id, status: Number(!offer.isFavorite)}));
   };
 
   return (
@@ -59,16 +45,7 @@ function Card({ offer, block, size = 'large', onMouseOver }: TCardProps): JSX.El
             <b className="place-card__price-value">€{offer.price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button
-            className={classNames('place-card__bookmark-button', 'button', {'place-card__bookmark-button--active': offer.isFavorite})}
-            type="button"
-            onClick={handleFavoriteChange}
-          >
-            <svg className="place-card__bookmark-icon" width={18} height={19}>
-              <use xlinkHref="#icon-bookmark" />
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <FavoriteButton isFavorite={offer.isFavorite} offerId={offer.id} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
