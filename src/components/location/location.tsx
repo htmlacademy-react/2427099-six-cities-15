@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 type TLocationProps = {
@@ -21,4 +22,5 @@ function Location({ location, isActive, onLocationChange }: TLocationProps): JSX
   );
 }
 
-export default Location;
+const MemorizedLocation = memo(Location);
+export default MemorizedLocation;

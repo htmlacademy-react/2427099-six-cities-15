@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Offer } from '@type/offer';
 import { Comment } from '@type/comment';
 import { RequestStatus } from '@const';
@@ -37,9 +37,11 @@ const offerSlice = createSlice({
   initialState,
   name: 'offer',
   reducers: {
-    clear(state) {
-      state.offer = null;
-      state.nearByOffers = [];
+    updateOffer: (state: OfferState, action: PayloadAction<string>) => {
+      if (state.offer?.id === action.payload) {
+        state.offer.isFavorite = !state.offer.isFavorite;
+      }
+      state.nearByOffers = state.nearByOffers.map((offer) => offer.id === action.payload ? { ...offer, isFavorite: !offer.isFavorite } : offer);
     }
   },
   selectors: {

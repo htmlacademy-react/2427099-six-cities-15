@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '@const';
-import Logo from '../logo/logo';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { authSelectors } from '@store/slices/auth';
 import { logoutAction } from '@store/thunks/auth';
+import Logo from '../logo/logo';
+import { memo } from 'react';
+import useFavoritesCount from '@hooks/use-favorites-count';
 
 type THeaderProps = {
   isLoginNav: boolean;
@@ -12,6 +14,7 @@ type THeaderProps = {
 function Header({ isLoginNav }: THeaderProps): JSX.Element {
   const authorizationStatus = useAppSelector(authSelectors.selectAuthorizationStatus);
   const user = useAppSelector(authSelectors.selectUserData);
+  const favoriteCount = useFavoritesCount();
   const dispatch = useAppDispatch();
 
   return (
@@ -31,7 +34,7 @@ function Header({ isLoginNav }: THeaderProps): JSX.Element {
                         <div className="header__avatar-wrapper user__avatar-wrapper">
                         </div>
                         <span className="header__user-name user__name">{user?.email}</span>
-                        <span className="header__favorite-count">3</span>
+                        <span className="header__favorite-count">{favoriteCount}</span>
                       </Link>
                     </li>
                     <li className="header__nav-item">
@@ -62,4 +65,5 @@ function Header({ isLoginNav }: THeaderProps): JSX.Element {
   );
 }
 
-export default Header;
+const MemoizedHeader = memo(Header);
+export default MemoizedHeader;

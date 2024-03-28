@@ -31,9 +31,12 @@ const offersSlice = createSlice({
   initialState,
   name: 'offers',
   reducers: {
-    setLocation: (state, action: PayloadAction<string>) => {
+    setLocation: (state: OffersState, action: PayloadAction<string>) => {
       state.location = action.payload;
     },
+    updateOffers: (state: OffersState, action: PayloadAction<string>) => {
+      state.offers = state.offers.map((offer) => offer.id === action.payload ? { ...offer, isFavorite: !offer.isFavorite } : offer);
+    }
   },
   selectors: {
     selectLocation: (state: OffersState) => state.location,

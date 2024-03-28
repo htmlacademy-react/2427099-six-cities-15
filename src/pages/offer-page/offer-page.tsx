@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { useEffect } from 'react';
 import { capitalizeFirstLetter, getRating } from '@utils/common';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { AuthorizationStatus, COMMENTS_COUNT, NEAR_OFFERS_COUNT, RequestStatus } from '@const';
+import { AuthorizationStatus, IMAGES_COUNT, NEAR_OFFERS_COUNT, RequestStatus } from '@const';
 import { authSelectors } from '@store/slices/auth';
 import { fetchCommentsAction } from '@store/thunks/comments';
 import { offerSelectors } from '@store/slices/offer';
@@ -17,6 +17,7 @@ import Map from '@components/map/map';
 import ListOffers from '@components/list-offers/list-offers';
 import NotFoundPage from '@pages/not-found-page/not-found-page';
 import Loader from '@components/loader/loader';
+import FavoriteButton from '@components/favorite-button/favorite-button';
 
 function OfferPage(): JSX.Element | undefined {
   const { offerId } = useParams();
@@ -28,9 +29,11 @@ function OfferPage(): JSX.Element | undefined {
   const comments = useAppSelector(commentsSelectors.selectComments);
 
   useEffect(() => {
-    dispatch(fetchOfferByIdAction(offerId as string));
-    dispatch(fetchNearByOffersAction(offerId as string));
-    dispatch(fetchCommentsAction(offerId as string));
+    Promise.all([
+      dispatch(fetchOfferByIdAction(offerId as string)),
+      dispatch(fetchNearByOffersAction(offerId as string)),
+      dispatch(fetchCommentsAction(offerId as string))
+    ]);
   }, [dispatch, offerId]);
 
   if (status === RequestStatus.Loading) {
@@ -47,7 +50,6 @@ function OfferPage(): JSX.Element | undefined {
 
   const threeNearOffers = nearOffers.slice(0, NEAR_OFFERS_COUNT);
   const nearOffersAndCurrent = [offerInfo, ...threeNearOffers];
-  const tenComments = comments.slice(0, COMMENTS_COUNT);
 
   return (
     <Container isLoginNav classMain="page__main--offer">
@@ -57,7 +59,7 @@ function OfferPage(): JSX.Element | undefined {
       <section className="offer">
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
-            {offerInfo?.images.map((image) => (
+            {offerInfo?.images && offerInfo?.images.slice(0, IMAGES_COUNT).map((image) => (
               <div className="offer__image-wrapper" key={image}>
                 <img className="offer__image" src={image} alt="Photo studio" />
               </div>
@@ -73,12 +75,7 @@ function OfferPage(): JSX.Element | undefined {
 
             <div className="offer__name-wrapper">
               <h1 className="offer__name">{offerInfo?.title}</h1>
-              <button className={classNames('offer__bookmark-button', 'button', {'offer__bookmark-button--active': offerInfo?.isFavorite})} type="button">
-                <svg className="offer__bookmark-icon" width={31} height={33}>
-                  <use xlinkHref="#icon-bookmark" />
-                </svg>
-                <span className="visually-hidden">To bookmarks</span>
-              </button>
+              <FavoriteButton extraClass='offer' offerId={offerInfo.id} isFavorite={offerInfo.isFavorite} width={31} height={33} />
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">
@@ -123,7 +120,7 @@ function OfferPage(): JSX.Element | undefined {
             </div>
             <section className="offer__reviews reviews">
               <h2 className="reviews__title">Reviews · <span className="reviews__amount">{comments.length}</span></h2>
-              <ListComments comments={tenComments}/>
+              <ListComments comments={comments}/>
               {
                 authorizationStatus === AuthorizationStatus.Auth && <OfferCommentForm offerId={offerId ?? ''}/>
               }

@@ -17,13 +17,13 @@ type MapProps = {
 const defaultMarkerIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
   iconSize: [27, 39],
-  iconAnchor: [13.5, 40]
+  iconAnchor: [13.5, 39]
 });
 
 const currentMarkerIcon = new Icon({
   iconUrl: URL_MARKER_CURRENT,
   iconSize: [27, 39],
-  iconAnchor: [13.5, 40]
+  iconAnchor: [13.5, 39]
 });
 
 function Map(props: MapProps): JSX.Element {

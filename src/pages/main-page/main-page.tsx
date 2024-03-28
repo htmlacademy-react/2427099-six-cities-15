@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
-import { useCallback, useState } from 'react';
-import Container from '@components/container/container';
+import { useCallback, useMemo, useState } from 'react';
 import { Offer } from '@type/offer';
-import ListOffers from '@components/list-offers/list-offers';
-import Map from '@components/map/map';
 import { LOCATIONS, RequestStatus, SortTypeOption } from '@const';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { offersActions, offersSelectors } from '@store/slices/offers';
+import { sortOfferByType } from '@utils/sortType';
+import Loader from '@components/loader/loader';
+import Sort from '@components/sort/sort';
 import Location from '@components/location/location';
 import MainEmpty from '@components/main-empty/main-empty';
-import { useAppDispatch, useAppSelector } from '@hooks/index';
-import Sort from '@components/sort/sort';
-import { offersActions, offersSelectors } from '@store/slices/offers';
-import Loader from '@components/loader/loader';
-import { sortOfferByType } from '@utils/sortType';
+import ListOffers from '@components/list-offers/list-offers';
+import Map from '@components/map/map';
+import Container from '@components/container/container';
 
 function MainPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -25,7 +25,7 @@ function MainPage(): JSX.Element {
     dispatch(offersActions.setLocation(location));
   }, [dispatch]);
 
-  const sortedOffers = sortOfferByType({activeSortType, selectedOffers});
+  const sortedOffers = useMemo(() => sortOfferByType({activeSortType, selectedOffers}), [activeSortType, selectedOffers]);
 
   if (status === RequestStatus.Loading) {
     return (

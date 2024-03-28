@@ -4,6 +4,8 @@ import { capitalizeFirstLetter, getImageSize, getRating } from '@utils/common';
 import { AppRoute } from '@const';
 import { Offer } from '@type/offer';
 import { Size } from '@type/size';
+import { memo } from 'react';
+import FavoriteButton from '@components/favorite-button/favorite-button';
 
 type TCardProps = {
   offer: Offer;
@@ -43,12 +45,7 @@ function Card({ offer, block, size = 'large', onMouseOver }: TCardProps): JSX.El
             <b className="place-card__price-value">€{offer.price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button className={classNames('place-card__bookmark-button', 'button', {'place-card__bookmark-button--active': offer.isFavorite})} type="button">
-            <svg className="place-card__bookmark-icon" width={18} height={19}>
-              <use xlinkHref="#icon-bookmark" />
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <FavoriteButton isFavorite={offer.isFavorite} offerId={offer.id} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -65,4 +62,5 @@ function Card({ offer, block, size = 'large', onMouseOver }: TCardProps): JSX.El
   );
 }
 
-export default Card;
+const MemoizedCard = memo(Card);
+export default MemoizedCard;
