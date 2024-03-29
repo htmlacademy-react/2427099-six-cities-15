@@ -1,20 +1,17 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Offer } from '@type/offer';
-import { Comment } from '@type/comment';
 import { RequestStatus } from '@const';
 import { fetchNearByOffersAction, fetchOfferByIdAction } from '@store/thunks/offers';
 
 type OfferState = {
   nearByOffers: Offer[];
   offer: Offer | null;
-  comments: Comment[];
   status: RequestStatus;
 }
 
 const initialState: OfferState = {
   nearByOffers: [],
   offer: null,
-  comments: [],
   status: RequestStatus.Idle
 };
 
@@ -47,7 +44,6 @@ const offerSlice = createSlice({
   selectors: {
     selectOffer: (state: OfferState) => state.offer,
     selectNearByOffers: (state: OfferState) => state.nearByOffers,
-    selectComments: (state: OfferState) => state.comments,
     selectOfferStatus: (state: OfferState) => state.status
   }
 });

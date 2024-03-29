@@ -42,6 +42,7 @@ const authSlice = createSlice({
       .addCase(logoutAction.fulfilled, (state) => {
         state.userData = null;
         state.authorizationStatus = AuthorizationStatus.NoAuth;
+        state.status = RequestStatus.Success;
       }),
   initialState,
   name: 'auth',

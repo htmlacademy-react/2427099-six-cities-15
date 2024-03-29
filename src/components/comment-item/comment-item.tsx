@@ -8,12 +8,12 @@ type TCommentItemProps = {
 
 function CommentItem({ comment }: TCommentItemProps): JSX.Element {
   return (
-    <li className="reviews__item">
+    <li className="reviews__item" data-testid='review-item'>
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
           <img className="reviews__avatar user__avatar" src={comment.user.avatarUrl} width={54} height={54} alt="Reviews avatar" />
         </div>
-        <span className="reviews__user-name">
+        <span className="reviews__user-name" data-testid='user-name'>
           {comment.user.name}
         </span>
       </div>
