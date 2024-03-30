@@ -28,7 +28,7 @@ function Card({ offer, block, size = 'large', onMouseOver }: TCardProps): JSX.El
   };
 
   return (
-    <article className={`${block}__card place-card`} onMouseOver={handleOfferHover} onMouseLeave={handleOfferLeave}>
+    <article className={`${block}__card place-card`} onMouseOver={handleOfferHover} onMouseLeave={handleOfferLeave} data-testid={`${block}-card`}>
       {offer.isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>

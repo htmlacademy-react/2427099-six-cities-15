@@ -10,7 +10,7 @@ type TLocationProps = {
 
 function Location({ location, isActive, onLocationChange }: TLocationProps): JSX.Element {
   return (
-    <li className="locations__item">
+    <li className="locations__item" data-testid='location-item'>
       <Link
         className={classNames('locations__item-link tabs__item', { 'tabs__item--active': isActive })}
         to="#"

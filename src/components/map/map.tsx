@@ -59,7 +59,7 @@ function Map(props: MapProps): JSX.Element {
     }
   }, [extraClass, map, offers, selectedOfferId]);
 
-  return <section className={`${extraClass}__map map`} ref={mapRef} />;
+  return <section className={`${extraClass}__map map`} ref={mapRef} data-testid='map'/>;
 }
 
 export default Map;

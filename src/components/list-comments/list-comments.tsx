@@ -11,7 +11,7 @@ type TListCommentsProps = {
 function ListComments({ comments }: TListCommentsProps): JSX.Element {
   const sortedComments = sortCommentsByDate(comments).slice(0, COMMENTS_COUNT);
   return (
-    <ul className="reviews__list">
+    <ul className="reviews__list" data-testid='reviews-list'>
       {sortedComments.map((comment) => <CommentItem key={comment.id} comment={comment} />)}
     </ul>
   );

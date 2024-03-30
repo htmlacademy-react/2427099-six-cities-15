@@ -42,6 +42,7 @@ function FavoriteButton({ extraClass = 'place-card', isFavorite = false, offerId
       className={classNames(buttonClass, 'button', {[`${buttonClass}--active`]: isFavorite})}
       type="button"
       onClick={handleFavoriteChange}
+      data-testid='favorite-button'
     >
       <svg className={`${extraClass}__bookmark-icon`} width={width} height={height}>
         <use xlinkHref="#icon-bookmark" />

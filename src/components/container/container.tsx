@@ -12,7 +12,7 @@ type TContainerProps = {
 
 function Container({ isLoginNav, children, extraClass, classMain, emptyClass }: TContainerProps): JSX.Element {
   return (
-    <div className={classNames('page', extraClass)}>
+    <div className={classNames('page', extraClass)} data-testid={extraClass}>
       <Header isLoginNav={isLoginNav}/>
       <main className={classNames('page__main', classMain, emptyClass)}>
         {children}
