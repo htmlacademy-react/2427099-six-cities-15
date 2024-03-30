@@ -68,7 +68,7 @@ function OfferCommentForm({ offerId }: TOfferFromProps): JSX.Element {
                 checked={+rating === rating.value}
                 disabled={status === RequestStatus.Loading}
               />
-              <label htmlFor={`${rating.value}-stars`} className="reviews__rating-label form__rating-label" title={rating.title}>
+              <label htmlFor={`${rating.value}-stars`} className="reviews__rating-label form__rating-label" title={rating.title} data-testid="rating-star">
                 <svg className="form__star-image" width={37} height={33}>
                   <use xlinkHref="#icon-star" />
                 </svg>
@@ -85,6 +85,7 @@ function OfferCommentForm({ offerId }: TOfferFromProps): JSX.Element {
         onChange={handleFieldChange}
         value={reviewData.review}
         disabled={status === RequestStatus.Loading}
+        data-testid="review-textarea"
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

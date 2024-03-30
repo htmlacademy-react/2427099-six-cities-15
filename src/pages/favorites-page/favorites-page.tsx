@@ -15,7 +15,7 @@ function FavoritesPage(): JSX.Element {
       </Helmet>
       {
         favoriteOffers?.length > 0 ? (
-          <div className="page__favorites-container container">
+          <div className="page__favorites-container container" data-testid='favorites-page'>
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <FavoriteList offers={favoriteOffers}/>
