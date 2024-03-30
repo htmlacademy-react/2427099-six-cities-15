@@ -5,12 +5,14 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import App from './app';
-import { store } from './store';
+import { setupStore } from './store';
 import 'react-toastify/dist/ReactToastify.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const store = setupStore();
 
 root.render(
   <React.StrictMode>

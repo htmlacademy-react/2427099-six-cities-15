@@ -56,7 +56,7 @@ function OfferPage(): JSX.Element | undefined {
       <Helmet>
         <title>6 cities: offer</title>
       </Helmet>
-      <section className="offer">
+      <section className="offer" data-testid='offer-section'>
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
             {offerInfo?.images && offerInfo?.images.slice(0, IMAGES_COUNT).map((image) => (

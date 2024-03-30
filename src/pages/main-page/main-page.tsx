@@ -44,7 +44,7 @@ function MainPage(): JSX.Element {
         <title>6 cities</title>
       </Helmet>
       <h1 className="visually-hidden">Cities</h1>
-      <div className="tabs">
+      <div className="tabs" data-testid='main-tabs'>
         <section className="locations container">
           <ul className="locations__list tabs__list">
             {LOCATIONS.map((location) => (
