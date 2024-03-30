@@ -31,7 +31,7 @@ function Sort({ currentType, setter }: TSortProps): JSX.Element {
   }, [isOn, off]);
 
   return (
-    <form className="places__sorting" action="#" method="get" onClick={toggle}>
+    <form className="places__sorting" action="#" method="get" onClick={toggle} data-testid='sort'>
       <span className="places__sorting-caption">Sort by</span>
       <span className="places__sorting-type" tabIndex={0}>
         {activeSortType}

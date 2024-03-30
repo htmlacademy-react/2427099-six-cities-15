@@ -12,7 +12,7 @@ type TListOffers = {
 
 function ListOffers({offers, onOfferHover, listBlock, extraClass, block}: TListOffers): JSX.Element {
   return (
-    <div className={`${listBlock} places__list ${extraClass}`}>
+    <div className={`${listBlock} places__list ${extraClass}`} data-testid={`${listBlock}`}>
       {offers.map((offer) => <Card key={offer.id} offer={offer} block={block} onMouseOver={onOfferHover}/>)}
     </div>
   );
