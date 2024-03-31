@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import { renderWithRouterAndProviders } from '@utils/mock-component';
-import ListOffers from './list-offers';
+import MemoizedListOffers from './list-offers';
 import { makeFakeOffer } from '@utils/mocks';
 
 describe('Component: List offers', () => {
@@ -9,7 +9,7 @@ describe('Component: List offers', () => {
   it('should render cities list correctly', () => {
     const citiesListTestId = 'cities__places-list';
 
-    renderWithRouterAndProviders(<ListOffers offers={[offer]} listBlock='cities__places-list' block='cities'/>);
+    renderWithRouterAndProviders(<MemoizedListOffers offers={[offer]} listBlock='cities__places-list' block='cities'/>);
 
     expect(screen.getByTestId(citiesListTestId)).toBeInTheDocument();
   });
@@ -17,7 +17,7 @@ describe('Component: List offers', () => {
   it('should render neader offers list correctly', () => {
     const citiesListTestId = 'near-places__list';
 
-    renderWithRouterAndProviders(<ListOffers offers={[offer]} listBlock='near-places__list' block='near-places'/>);
+    renderWithRouterAndProviders(<MemoizedListOffers offers={[offer]} listBlock='near-places__list' block='near-places'/>);
 
     expect(screen.getByTestId(citiesListTestId)).toBeInTheDocument();
   });

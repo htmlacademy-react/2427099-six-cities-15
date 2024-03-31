@@ -12,9 +12,9 @@ import { fetchNearByOffersAction, fetchOfferByIdAction } from '@store/thunks/off
 import { commentsSelectors } from '@store/slices/comments';
 import Container from '@components/container/container';
 import OfferCommentForm from '@components/offer-comment-form/offer-comment-form';
-import ListComments from '@components/list-comments/list-comments';
-import Map from '@components/map/map';
-import ListOffers from '@components/list-offers/list-offers';
+import MemorizedListComments from '@components/list-comments/list-comments';
+import MemorizedMap from '@components/map/map';
+import MemoizedListOffers from '@components/list-offers/list-offers';
 import NotFoundPage from '@pages/not-found-page/not-found-page';
 import Loader from '@components/loader/loader';
 import FavoriteButton from '@components/favorite-button/favorite-button';
@@ -120,19 +120,19 @@ function OfferPage(): JSX.Element | undefined {
             </div>
             <section className="offer__reviews reviews">
               <h2 className="reviews__title">Reviews · <span className="reviews__amount">{comments.length}</span></h2>
-              <ListComments comments={comments}/>
+              <MemorizedListComments comments={comments}/>
               {
                 authorizationStatus === AuthorizationStatus.Auth && <OfferCommentForm offerId={offerId ?? ''}/>
               }
             </section>
           </div>
         </div>
-        <Map extraClass='offer' city={offerInfo.city} offers={nearOffersAndCurrent} selectedOfferId={offerInfo.id}/>
+        <MemorizedMap extraClass='offer' city={offerInfo.city} offers={nearOffersAndCurrent} selectedOfferId={offerInfo.id}/>
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <ListOffers offers={threeNearOffers} listBlock='near-places__list' block='near-places' />
+          <MemoizedListOffers offers={threeNearOffers} listBlock='near-places__list' block='near-places' />
         </section>
       </div>
     </Container>

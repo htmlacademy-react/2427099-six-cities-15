@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import classNames from 'classnames';
-import Header from '../header/header';
+import MemoizedHeader from '../header/header';
 
 type TContainerProps = {
   isLoginNav: boolean;
@@ -13,7 +13,7 @@ type TContainerProps = {
 function Container({ isLoginNav, children, extraClass, classMain, emptyClass }: TContainerProps): JSX.Element {
   return (
     <div className={classNames('page', extraClass)} data-testid={extraClass}>
-      <Header isLoginNav={isLoginNav}/>
+      <MemoizedHeader isLoginNav={isLoginNav}/>
       <main className={classNames('page__main', classMain, emptyClass)}>
         {children}
       </main>

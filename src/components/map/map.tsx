@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, memo } from 'react';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import useMap from '@hooks/use-map';
 import { Offer } from '@type/offer';
@@ -62,4 +62,5 @@ function Map(props: MapProps): JSX.Element {
   return <section className={`${extraClass}__map map`} ref={mapRef} data-testid='map'/>;
 }
 
-export default Map;
+const MemorizedMap = memo(Map);
+export default MemorizedMap;
