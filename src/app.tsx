@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
-import { AppRoute } from '@const';
-import { useAppDispatch } from './hooks';
+import { AppRoute, RequestStatus } from '@const';
+import { useAppDispatch, useAppSelector } from './hooks';
 import { fetchOffersAction } from '@store/thunks/offers';
 import { checkAuthAction } from '@store/thunks/auth';
 import MainPage from '@pages/main-page/main-page';
@@ -11,10 +11,13 @@ import FavoritesPage from '@pages/favorites-page/favorites-page';
 import OfferPage from '@pages/offer-page/offer-page';
 import ProtectedRoute from '@components/protected-route/protected-route';
 import { getToken } from '@services/token';
+import { offersSelectors } from '@store/slices/offers';
+import Loader from '@components/loader/loader';
 
 export default function App(): JSX.Element {
   const dispatch = useAppDispatch();
   const token = getToken();
+  const offersStatus = useAppSelector(offersSelectors.selectStatus);
 
   useEffect(() => {
     if (token) {
@@ -22,6 +25,10 @@ export default function App(): JSX.Element {
     }
     dispatch(fetchOffersAction());
   }, [token, dispatch]);
+
+  if (offersStatus === RequestStatus.Loading) {
+    return <Loader />;
+  }
 
   return (
     <Routes>

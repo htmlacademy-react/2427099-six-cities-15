@@ -31,7 +31,7 @@ function FavoriteButton({ extraClass = 'place-card', isFavorite = false, offerId
 
     dispatch(changeFavoriteAction({offerId, status: Number(!isFavorite)}));
 
-    if (status === RequestStatus.Success) {
+    if (status !== RequestStatus.Failed) {
       dispatch(offersActions.updateOffers(offerId));
       dispatch(offerActions.updateOffer(offerId));
     }

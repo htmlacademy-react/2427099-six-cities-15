@@ -64,7 +64,7 @@ function MainPage(): JSX.Element {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {sortedOffers.length} {sortedOffers.length === 1 ? 'place' : 'places'} to stay in {sortedOffers[0].city.name}
+                {sortedOffers.length} {sortedOffers.length === 1 ? 'place' : 'places'} to stay in {activeLocation}
               </b>
               <MemoizedSort currentType={activeSortType} setter={setActiveSortType} />
               <MemoizedListOffers

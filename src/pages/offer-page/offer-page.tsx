@@ -2,9 +2,9 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import { useEffect } from 'react';
-import { capitalizeFirstLetter, getRating } from '@utils/common';
+import { capitalizeFirstLetter, getRating, isAuth } from '@utils/common';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { AuthorizationStatus, IMAGES_COUNT, NEAR_OFFERS_COUNT, RequestStatus } from '@const';
+import { IMAGES_COUNT, NEAR_OFFERS_COUNT, RequestStatus } from '@const';
 import { authSelectors } from '@store/slices/auth';
 import { fetchCommentsAction } from '@store/thunks/comments';
 import { offerSelectors } from '@store/slices/offer';
@@ -122,7 +122,7 @@ function OfferPage(): JSX.Element | undefined {
               <h2 className="reviews__title">Reviews · <span className="reviews__amount">{comments.length}</span></h2>
               <MemorizedListComments comments={comments}/>
               {
-                authorizationStatus === AuthorizationStatus.Auth && <OfferCommentForm offerId={offerId ?? ''}/>
+                isAuth(authorizationStatus) && <OfferCommentForm offerId={offerId ?? ''}/>
               }
             </section>
           </div>
