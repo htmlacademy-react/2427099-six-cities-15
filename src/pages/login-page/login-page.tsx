@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import {useRef, FormEvent} from 'react';
+import { FormEvent, useState, ReactEventHandler, useMemo } from 'react';
 import Container from '@components/container/container';
 import { useAppDispatch } from '@hooks/index';
 import { loginAction } from '@store/thunks/auth';
@@ -8,22 +8,40 @@ import { AppRoute, LOCATIONS } from '@const';
 import { offersActions } from '@store/slices/offers';
 import { getRandomLocation } from '@utils/common';
 
+type THTMLLoginForm = HTMLFormElement & {
+  email: HTMLInputElement;
+  password: HTMLInputElement;
+}
+
+type TLoginData = {
+  email: string;
+  password: string;
+}
+
+type TChangeHandler = ReactEventHandler<HTMLInputElement>;
+
 function LoginPage(): JSX.Element {
-  const loginRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const [loginData, setLoginData] = useState<TLoginData>({
+    email: '',
+    password: ''
+  });
 
   const dispatch = useAppDispatch();
-  const randomLocation = getRandomLocation(LOCATIONS);
+  const randomLocation = useMemo(() => getRandomLocation(LOCATIONS), []);
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleChange: TChangeHandler = (evt) => {
+    const { name, value } = evt.currentTarget;
+
+    setLoginData({
+      ...loginData,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = (evt: FormEvent<THTMLLoginForm>) => {
     evt.preventDefault();
 
-    if (loginRef.current !== null && passwordRef.current !== null) {
-      dispatch(loginAction({
-        email: loginRef.current.value,
-        password: passwordRef.current.value
-      }));
-    }
+    dispatch(loginAction(loginData));
   };
 
   return (
@@ -38,23 +56,25 @@ function LoginPage(): JSX.Element {
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">E-mail</label>
               <input
-                ref={loginRef}
+                value={loginData.email}
                 className="login__input form__input"
                 type="email"
                 name="email"
                 placeholder="Email"
                 required
+                onChange={handleChange}
               />
             </div>
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">Password</label>
               <input
-                ref={passwordRef}
+                value={loginData.password}
                 className="login__input form__input"
                 type="password"
                 name="password"
                 placeholder="Password"
                 required
+                onChange={handleChange}
               />
             </div>
             <button
