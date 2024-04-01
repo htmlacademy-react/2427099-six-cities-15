@@ -19,7 +19,7 @@ function MainPage(): JSX.Element {
   const selectedOffers = useAppSelector(offersSelectors.selectOffersByLocation);
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
   const [activeSortType, setActiveSortType] = useState(SortTypeOption.Popular);
-  const status = useAppSelector(offersSelectors.selectStatus);
+  const offersStatusRequest = useAppSelector(offersSelectors.selectStatus);
 
   const handleLocationChange = useCallback((location: string) => {
     dispatch(offersActions.setLocation(location));
@@ -27,7 +27,7 @@ function MainPage(): JSX.Element {
 
   const sortedOffers = useMemo(() => sortOfferByType({activeSortType, selectedOffers}), [activeSortType, selectedOffers]);
 
-  if (status === RequestStatus.Loading) {
+  if (offersStatusRequest === RequestStatus.Loading) {
     return (
       <Loader />
     );

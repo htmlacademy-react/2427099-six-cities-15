@@ -6,7 +6,7 @@ type TFavoriteItemProps = {
   city: string;
 }
 
-function FavoriteItem({offers, city}: TFavoriteItemProps): JSX.Element {
+function FavoriteItem({ offers, city }: TFavoriteItemProps): JSX.Element {
   return (
     <li className="favorites__locations-items" data-testid='favorite-item'>
       <div className="favorites__locations locations locations--current">

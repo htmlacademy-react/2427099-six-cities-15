@@ -6,7 +6,7 @@ type TFavoriteListProps = {
   offers: Offer[];
 }
 
-function FavoriteList({offers}: TFavoriteListProps): JSX.Element {
+function FavoriteList({ offers }: TFavoriteListProps): JSX.Element {
   const cities = getFavoriteCitiesFromOffers({offers});
   return (
     <ul className="favorites__list" data-testid='favorite-list'>

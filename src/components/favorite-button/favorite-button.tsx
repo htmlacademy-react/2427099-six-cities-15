@@ -20,7 +20,7 @@ function FavoriteButton({ extraClass = 'place-card', isFavorite = false, offerId
   const token = getToken();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const status = useAppSelector(favoritesSelectors.selectFavoritesStatus);
+  const favoriteStatusRequest = useAppSelector(favoritesSelectors.selectFavoritesStatus);
   const bookmarksLabel = `${isFavorite ? 'In' : 'To'} bookmarks`;
   const buttonClass = `${extraClass}__bookmark-button`;
 
@@ -31,7 +31,7 @@ function FavoriteButton({ extraClass = 'place-card', isFavorite = false, offerId
 
     dispatch(changeFavoriteAction({offerId, status: Number(!isFavorite)}));
 
-    if (status !== RequestStatus.Failed) {
+    if (favoriteStatusRequest !== RequestStatus.Failed) {
       dispatch(offersActions.updateOffers(offerId));
       dispatch(offerActions.updateOffer(offerId));
     }

@@ -23,7 +23,7 @@ function OfferPage(): JSX.Element | undefined {
   const { offerId } = useParams();
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(authSelectors.selectAuthorizationStatus);
-  const status = useAppSelector(offerSelectors.selectOfferStatus);
+  const offerStatusRequest = useAppSelector(offerSelectors.selectOfferStatus);
   const offerInfo = useAppSelector(offerSelectors.selectOffer);
   const nearOffers = useAppSelector(offerSelectors.selectNearByOffers);
   const comments = useAppSelector(commentsSelectors.selectComments);
@@ -36,13 +36,13 @@ function OfferPage(): JSX.Element | undefined {
     ]);
   }, [dispatch, offerId]);
 
-  if (status === RequestStatus.Loading) {
+  if (offerStatusRequest === RequestStatus.Loading) {
     return (
       <Loader />
     );
   }
 
-  if (status === RequestStatus.Failed || !offerInfo) {
+  if (offerStatusRequest === RequestStatus.Failed || !offerInfo) {
     return (
       <NotFoundPage />
     );
