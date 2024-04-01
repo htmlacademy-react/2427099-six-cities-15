@@ -88,7 +88,7 @@ function OfferPage(): JSX.Element | undefined {
                 {pluralize(offerInfo?.bedrooms, 'Bedroom', 'Bedrooms')}
               </li>
               <li className="offer__feature offer__feature--adults">
-                {pluralize(offerInfo?.maxAdults, 'adult', 'adults')}
+                Max {pluralize(offerInfo?.maxAdults, 'adult', 'adults')}
               </li>
             </ul>
             <div className="offer__price">
