@@ -1,4 +1,3 @@
-import { Helmet } from 'react-helmet-async';
 import { useCallback, useMemo, useState } from 'react';
 import { Offer } from '@type/offer';
 import { LOCATIONS, RequestStatus, SortTypeOption } from '@const';
@@ -12,6 +11,8 @@ import MainEmpty from '@components/main-empty/main-empty';
 import MemoizedListOffers from '@components/list-offers/list-offers';
 import MemorizedMap from '@components/map/map';
 import Container from '@components/container/container';
+import HelmetComponent from '@components/helmet-component/helmet-component';
+import { pluralize } from '@utils/common';
 
 function MainPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -40,9 +41,7 @@ function MainPage(): JSX.Element {
       classMain='page__main--index'
       emptyClass={sortedOffers.length === 0 ? 'page__main--index-empty' : ''}
     >
-      <Helmet>
-        <title>6 cities</title>
-      </Helmet>
+      <HelmetComponent title='6 cities' description='This page showcases various offers available on the platform.'/>
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs" data-testid='main-tabs'>
         <section className="locations container">
@@ -64,7 +63,7 @@ function MainPage(): JSX.Element {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {sortedOffers.length} {sortedOffers.length === 1 ? 'place' : 'places'} to stay in {activeLocation}
+                {`${pluralize(sortedOffers.length, 'place', 'places')} to stay in ${activeLocation}`}
               </b>
               <MemoizedSort currentType={activeSortType} setter={setActiveSortType} />
               <MemoizedListOffers

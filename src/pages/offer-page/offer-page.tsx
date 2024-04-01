@@ -1,8 +1,7 @@
-import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import { useEffect } from 'react';
-import { capitalizeFirstLetter, getRating, isAuth } from '@utils/common';
+import { capitalizeFirstLetter, getRating, isAuth, pluralize } from '@utils/common';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { IMAGES_COUNT, NEAR_OFFERS_COUNT, RequestStatus } from '@const';
 import { authSelectors } from '@store/slices/auth';
@@ -18,6 +17,7 @@ import MemoizedListOffers from '@components/list-offers/list-offers';
 import NotFoundPage from '@pages/not-found-page/not-found-page';
 import Loader from '@components/loader/loader';
 import FavoriteButton from '@components/favorite-button/favorite-button';
+import HelmetComponent from '@components/helmet-component/helmet-component';
 
 function OfferPage(): JSX.Element | undefined {
   const { offerId } = useParams();
@@ -53,9 +53,7 @@ function OfferPage(): JSX.Element | undefined {
 
   return (
     <Container isLoginNav classMain="page__main--offer">
-      <Helmet>
-        <title>6 cities: offer</title>
-      </Helmet>
+      <HelmetComponent title='6 cities: offer' description='This page provides detailed information about the current offer: "6 cities: offer".'/>
       <section className="offer" data-testid='offer-section'>
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
@@ -87,10 +85,10 @@ function OfferPage(): JSX.Element | undefined {
             <ul className="offer__features">
               <li className="offer__feature offer__feature--entire">{capitalizeFirstLetter(offerInfo?.type ?? '')}</li>
               <li className="offer__feature offer__feature--bedrooms">
-                {offerInfo?.bedrooms ?? 0} {offerInfo?.bedrooms && offerInfo?.bedrooms > 1 ? 'Bedrooms' : 'Bedroom'}
+                {pluralize(offerInfo?.bedrooms, 'Bedroom', 'Bedrooms')}
               </li>
               <li className="offer__feature offer__feature--adults">
-                Max {offerInfo?.maxAdults ?? 0} {offerInfo?.maxAdults && offerInfo?.maxAdults > 1 ? 'adults' : 'adult'}
+                {pluralize(offerInfo?.maxAdults, 'adult', 'adults')}
               </li>
             </ul>
             <div className="offer__price">

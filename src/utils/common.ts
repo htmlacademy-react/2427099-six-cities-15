@@ -48,3 +48,11 @@ export const isReviewValid = ({ review, rating }: { review: string; rating: numb
   review.length >= MIN_COMMENT_LENGTH &&
   review.length <= MAX_COMMENT_LENGTH &&
   rating > 0;
+
+export const pluralize = (count: number | undefined, singular: string, plural: string): string => {
+  if (count === undefined) {
+    return `0 ${plural}`;
+  }
+
+  return `${count} ${count === 1 ? singular : plural}`;
+};

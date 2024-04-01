@@ -1,12 +1,12 @@
-import { Helmet } from 'react-helmet-async';
 import { useMemo } from 'react';
-import Container from '@components/container/container';
 import { useAppDispatch } from '@hooks/index';
 import { Link } from 'react-router-dom';
 import { AppRoute, LOCATIONS } from '@const';
 import { offersActions } from '@store/slices/offers';
 import { getRandomLocation } from '@utils/common';
+import Container from '@components/container/container';
 import LoginForm from '@components/login-form/login-form';
+import HelmetComponent from '@components/helmet-component/helmet-component';
 
 function LoginPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -14,9 +14,10 @@ function LoginPage(): JSX.Element {
 
   return (
     <Container isLoginNav={false} extraClass='page--gray page--login' classMain='page__main--login'>
-      <Helmet>
-        <title>6 cities: authorization</title>
-      </Helmet>
+      <HelmetComponent
+        title='6 cities: authorization'
+        description='This page is the authentication gateway, allowing users to log in and access the features.'
+      />
       <div className="page__login-container container">
         <section className="login" data-testid='login-section'>
           <h1 className="login__title">Sign in</h1>
