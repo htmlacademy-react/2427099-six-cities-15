@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { makeFakeComment } from '@utils/mocks';
-import ListComments from './list-comments';
+import MemorizedListComments from './list-comments';
 
 describe('Component: List comments', () => {
   it('should render correctly', () => {
@@ -8,7 +8,7 @@ describe('Component: List comments', () => {
     const commentListTestId = 'reviews-list';
 
     render(
-      <ListComments comments={[comment]} />
+      <MemorizedListComments comments={[comment]} />
     );
 
     expect(screen.getByTestId(commentListTestId)).toBeInTheDocument();

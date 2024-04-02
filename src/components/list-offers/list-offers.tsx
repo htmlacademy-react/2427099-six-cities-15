@@ -1,5 +1,5 @@
 import { Offer } from '@type/offer';
-import Card from '../card/card';
+import MemoizedCard from '../card/card';
 import { memo } from 'react';
 
 type TListOffers = {
@@ -10,10 +10,10 @@ type TListOffers = {
   block: string;
 }
 
-function ListOffers({offers, onOfferHover, listBlock, extraClass, block}: TListOffers): JSX.Element {
+function ListOffers({ offers, onOfferHover, listBlock, extraClass, block }: TListOffers): JSX.Element {
   return (
     <div className={`${listBlock} places__list ${extraClass}`} data-testid={`${listBlock}`}>
-      {offers.map((offer) => <Card key={offer.id} offer={offer} block={block} onMouseOver={onOfferHover}/>)}
+      {offers.map((offer) => <MemoizedCard key={offer.id} offer={offer} block={block} onMouseOver={onOfferHover}/>)}
     </div>
   );
 }

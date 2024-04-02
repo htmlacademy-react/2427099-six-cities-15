@@ -1,69 +1,27 @@
-import { Helmet } from 'react-helmet-async';
-import {useRef, FormEvent} from 'react';
-import Container from '@components/container/container';
+import { useMemo } from 'react';
 import { useAppDispatch } from '@hooks/index';
-import { loginAction } from '@store/thunks/auth';
 import { Link } from 'react-router-dom';
 import { AppRoute, LOCATIONS } from '@const';
 import { offersActions } from '@store/slices/offers';
 import { getRandomLocation } from '@utils/common';
+import Container from '@components/container/container';
+import LoginForm from '@components/login-form/login-form';
+import HelmetComponent from '@components/helmet-component/helmet-component';
 
 function LoginPage(): JSX.Element {
-  const loginRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
-
   const dispatch = useAppDispatch();
-  const randomLocation = getRandomLocation(LOCATIONS);
-
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-
-    if (loginRef.current !== null && passwordRef.current !== null) {
-      dispatch(loginAction({
-        email: loginRef.current.value,
-        password: passwordRef.current.value
-      }));
-    }
-  };
+  const randomLocation = useMemo(() => getRandomLocation(LOCATIONS), []);
 
   return (
     <Container isLoginNav={false} extraClass='page--gray page--login' classMain='page__main--login'>
-      <Helmet>
-        <title>6 cities: authorization</title>
-      </Helmet>
+      <HelmetComponent
+        title='6 cities: authorization'
+        description='This page is the authentication gateway, allowing users to log in and access the features.'
+      />
       <div className="page__login-container container">
         <section className="login" data-testid='login-section'>
           <h1 className="login__title">Sign in</h1>
-          <form className="login__form form" action="#" method="post" onSubmit={handleSubmit}>
-            <div className="login__input-wrapper form__input-wrapper">
-              <label className="visually-hidden">E-mail</label>
-              <input
-                ref={loginRef}
-                className="login__input form__input"
-                type="email"
-                name="email"
-                placeholder="Email"
-                required
-              />
-            </div>
-            <div className="login__input-wrapper form__input-wrapper">
-              <label className="visually-hidden">Password</label>
-              <input
-                ref={passwordRef}
-                className="login__input form__input"
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-              />
-            </div>
-            <button
-              className="login__submit form__submit button"
-              type="submit"
-            >
-              Sign in
-            </button>
-          </form>
+          <LoginForm />
         </section>
         <section className="locations locations--login locations--current">
           <div className="locations__item">

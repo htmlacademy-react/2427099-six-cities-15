@@ -6,16 +6,16 @@ import { fetchFavoritesAction } from '@store/thunks/favorites';
 import { useEffect } from 'react';
 
 function useFavoritesCount() {
-  const status = useAppSelector(favoritesSelectors.selectFavoritesStatus);
+  const favoriteStatusRequest = useAppSelector(favoritesSelectors.selectFavoritesStatus);
   const count = useAppSelector(favoritesSelectors.selectFavoriteOffers).length;
   const token = getToken();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (status === RequestStatus.Idle && token) {
+    if (favoriteStatusRequest === RequestStatus.Idle && token) {
       dispatch(fetchFavoritesAction());
     }
-  }, [dispatch, status, token]);
+  }, [dispatch, favoriteStatusRequest, token]);
 
   return count;
 }

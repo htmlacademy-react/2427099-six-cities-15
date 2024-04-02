@@ -1,12 +1,12 @@
 import { Offer } from '@type/offer';
-import Card from '../card/card';
+import MemoizedCard from '../card/card';
 
 type TFavoriteItemProps = {
   offers: Offer[];
   city: string;
 }
 
-function FavoriteItem({offers, city}: TFavoriteItemProps): JSX.Element {
+function FavoriteItem({ offers, city }: TFavoriteItemProps): JSX.Element {
   return (
     <li className="favorites__locations-items" data-testid='favorite-item'>
       <div className="favorites__locations locations locations--current">
@@ -20,7 +20,7 @@ function FavoriteItem({offers, city}: TFavoriteItemProps): JSX.Element {
         {
           offers
             .filter((offer) => offer.city.name === city)
-            .map((offer) => <Card key={offer.id} offer={offer} block='favorites' size='small'/>)
+            .map((offer) => <MemoizedCard key={offer.id} offer={offer} block='favorites' size='small'/>)
         }
       </div>
     </li>

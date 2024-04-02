@@ -1,8 +1,7 @@
 import { Location, Navigate, useLocation } from 'react-router-dom';
-import { AppRoute, RequestStatus } from '@const';
+import { AppRoute } from '@const';
 import { useAppSelector } from '@hooks/index';
 import { authSelectors } from '@store/slices/auth';
-import Loader from '@components/loader/loader';
 
 type TProtectedRouteProps = {
   onlyUnAuth?: boolean;
@@ -16,12 +15,7 @@ type TLocationState = {
 function ProtectedRoute(props: TProtectedRouteProps): JSX.Element {
   const {onlyUnAuth, children} = props;
   const user = useAppSelector(authSelectors.selectUserData);
-  const userStatus = useAppSelector(authSelectors.selectUserStatus);
   const location: Location<TLocationState> = useLocation() as Location<TLocationState>;
-
-  if (userStatus === RequestStatus.Loading) {
-    return <Loader />;
-  }
 
   if (user && onlyUnAuth) {
     const from = location.state?.from || { pathname: AppRoute.Root };

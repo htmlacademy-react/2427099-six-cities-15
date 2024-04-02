@@ -30,6 +30,8 @@ export const TOTAL_RAITING_STATUS = 5;
 export const NEAR_OFFERS_COUNT = 3;
 export const COMMENTS_COUNT = 10;
 export const IMAGES_COUNT = 6;
+export const MIN_COMMENT_LENGTH = 50;
+export const MAX_COMMENT_LENGTH = 300;
 
 export const RATINGS = [
   { value: 5, title: 'perfect' },

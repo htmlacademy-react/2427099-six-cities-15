@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { AuthorizationStatus, COMMENT_DATE_FORMAT, ISO_DATE_FORMAT, TOTAL_RAITING_STATUS } from '@const';
+import { AuthorizationStatus, COMMENT_DATE_FORMAT, ISO_DATE_FORMAT, MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, TOTAL_RAITING_STATUS } from '@const';
 import { Size } from '@type/size';
 import { Offer } from '@type/offer';
 import { Comment } from '@type/comment';
@@ -43,3 +43,16 @@ export function getRandomLocation(locations: string[]): string {
   const randomIndex = Math.floor(Math.random() * locations.length);
   return locations[randomIndex];
 }
+
+export const isReviewValid = ({ review, rating }: { review: string; rating: number }) =>
+  review.length >= MIN_COMMENT_LENGTH &&
+  review.length <= MAX_COMMENT_LENGTH &&
+  rating > 0;
+
+export const pluralize = (count: number | undefined, singular: string, plural: string): string => {
+  if (count === undefined) {
+    return `0 ${plural}`;
+  }
+
+  return `${count} ${count === 1 ? singular : plural}`;
+};

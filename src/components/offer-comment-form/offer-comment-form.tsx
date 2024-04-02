@@ -1,9 +1,10 @@
-import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
+import { ChangeEvent, FormEvent, Fragment, useEffect, useState } from 'react';
 import { RATINGS, RequestStatus } from '@const';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { addCommentAction } from '@store/thunks/comments';
 import { commentsSelectors } from '@store/slices/comments';
 import Loader from '@components/loader/loader';
+import { isReviewValid } from '@utils/common';
 
 type TOfferFromProps = {
   offerId: string;
@@ -16,15 +17,38 @@ type TFormData = {
 
 function OfferCommentForm({ offerId }: TOfferFromProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const status = useAppSelector(commentsSelectors.selectCommentsStatus);
+  const statusFormRequest = useAppSelector(commentsSelectors.selectAddCommentStatus);
   const [reviewData, setReviewData] = useState<TFormData>({
     rating: 0,
     review: '',
   });
+  const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (isReviewValid({review: reviewData.review, rating: reviewData.rating})) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [reviewData]);
+
+  useEffect(() => {
+    if (statusFormRequest === RequestStatus.Success) {
+      setReviewData({
+        rating: 0,
+        review: '',
+      });
+      setButtonDisabled(true);
+    }
+
+    if (statusFormRequest === RequestStatus.Failed) {
+      setButtonDisabled(false);
+    }
+  }, [statusFormRequest]);
 
   const handleFieldChange = (evt: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>): void => {
-    const {name, value} = evt.target;
-    const newValue = name === 'rating' ? parseInt(value, 10) : value;
+    const { name, value } = evt.target;
+    const newValue = name === 'rating' ? Number(value) : value;
     setReviewData({...reviewData, [name]: newValue});
   };
 
@@ -39,15 +63,10 @@ function OfferCommentForm({ offerId }: TOfferFromProps): JSX.Element {
       }
     }));
 
-    if (status === RequestStatus.Loading) {
-      <Loader />;
-    }
+    setButtonDisabled(true);
 
-    if (status === RequestStatus.Success) {
-      setReviewData({
-        rating: 0,
-        review: '',
-      });
+    if (statusFormRequest === RequestStatus.Loading) {
+      <Loader />;
     }
   };
 
@@ -65,8 +84,8 @@ function OfferCommentForm({ offerId }: TOfferFromProps): JSX.Element {
                 type="radio"
                 value={rating.value}
                 onChange={handleFieldChange}
-                checked={+rating === rating.value}
-                disabled={status === RequestStatus.Loading}
+                checked={reviewData.rating === rating.value}
+                disabled={statusFormRequest === RequestStatus.Loading}
               />
               <label htmlFor={`${rating.value}-stars`} className="reviews__rating-label form__rating-label" title={rating.title} data-testid="rating-star">
                 <svg className="form__star-image" width={37} height={33}>
@@ -84,7 +103,7 @@ function OfferCommentForm({ offerId }: TOfferFromProps): JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={handleFieldChange}
         value={reviewData.review}
-        disabled={status === RequestStatus.Loading}
+        disabled={statusFormRequest === RequestStatus.Loading}
         data-testid="review-textarea"
       />
       <div className="reviews__button-wrapper">
@@ -94,7 +113,7 @@ function OfferCommentForm({ offerId }: TOfferFromProps): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={status === RequestStatus.Loading}
+          disabled={buttonDisabled}
         >
           Submit
         </button>

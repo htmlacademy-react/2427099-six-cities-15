@@ -6,7 +6,7 @@ import { makeFakeComment } from '@utils/mocks';
 describe('Comment Slice', () => {
   it('should return initial state with empty action', () => {
     const emptyAction = { type: '' };
-    const expectedState = { comments: [], status: RequestStatus.Idle };
+    const expectedState = { comments: [], statusFetchComments: RequestStatus.Idle, statusAddComment: RequestStatus.Idle };
 
     const result = commentsSlice.reducer(expectedState, emptyAction);
 
@@ -15,7 +15,7 @@ describe('Comment Slice', () => {
 
   it('should return default initial state with empty action', () => {
     const emptyAction = { type: '' };
-    const expectedState = { comments: [], status: RequestStatus.Idle };
+    const expectedState = { comments: [], statusFetchComments: RequestStatus.Idle, statusAddComment: RequestStatus.Idle };
 
     const result = commentsSlice.reducer(undefined, emptyAction);
 
@@ -23,8 +23,8 @@ describe('Comment Slice', () => {
   });
 
   it('should set "Loading" with "fetchCommentsAction.pending" action', () => {
-    const initialState = { comments: [], status: RequestStatus.Idle };
-    const expectedState = { comments: [], status: RequestStatus.Loading };
+    const initialState = { comments: [], statusFetchComments: RequestStatus.Idle, statusAddComment: RequestStatus.Idle };
+    const expectedState = { comments: [], statusFetchComments: RequestStatus.Loading, statusAddComment: RequestStatus.Idle };
 
     const result = commentsSlice.reducer(initialState, fetchCommentsAction.pending('offerId', ''));
 
@@ -33,8 +33,8 @@ describe('Comment Slice', () => {
 
   it('should set "Success" with "fetchCommentsAction.fulfilled" action', () => {
     const comments = [makeFakeComment()];
-    const initialState = { comments: [], status: RequestStatus.Loading };
-    const expectedState = { comments, status: RequestStatus.Success };
+    const initialState = { comments: [], statusFetchComments: RequestStatus.Loading, statusAddComment: RequestStatus.Idle };
+    const expectedState = { comments, statusFetchComments: RequestStatus.Success, statusAddComment: RequestStatus.Idle };
 
     const result = commentsSlice.reducer(initialState, fetchCommentsAction.fulfilled(comments, 'offerId', ''));
 
@@ -42,8 +42,8 @@ describe('Comment Slice', () => {
   });
 
   it('should set "Failed" with "fetchCommentsAction.rejected" action', () => {
-    const initialState = { comments: [], status: RequestStatus.Loading };
-    const expectedState = { comments: [], status: RequestStatus.Failed };
+    const initialState = { comments: [], statusFetchComments: RequestStatus.Loading, statusAddComment: RequestStatus.Idle };
+    const expectedState = { comments: [], statusFetchComments: RequestStatus.Failed, statusAddComment: RequestStatus.Idle };
 
     const result = commentsSlice.reducer(initialState, fetchCommentsAction.rejected(null, 'offerId', ''));
 
@@ -51,8 +51,8 @@ describe('Comment Slice', () => {
   });
 
   it('should set "Loading" with "addCommentAction.pending" action', () => {
-    const initialState = { comments: [], status: RequestStatus.Idle };
-    const expectedState = { comments: [], status: RequestStatus.Loading };
+    const initialState = { comments: [], statusFetchComments: RequestStatus.Idle, statusAddComment: RequestStatus.Idle };
+    const expectedState = { comments: [], statusFetchComments: RequestStatus.Idle, statusAddComment: RequestStatus.Loading };
 
     const result = commentsSlice.reducer(initialState, addCommentAction.pending('offerId', { offerId: 'offerId', body: { comment: 'test', rating: 5 } }));
 
@@ -61,8 +61,8 @@ describe('Comment Slice', () => {
 
   it('should set "Success" with "addCommentAction.fulfilled" action', () => {
     const comment = makeFakeComment();
-    const initialState = { comments: [], status: RequestStatus.Loading };
-    const expectedState = { comments: [comment], status: RequestStatus.Success };
+    const initialState = { comments: [], statusFetchComments: RequestStatus.Idle, statusAddComment: RequestStatus.Loading };
+    const expectedState = { comments: [comment], statusFetchComments: RequestStatus.Idle, statusAddComment: RequestStatus.Success };
 
     const result = commentsSlice.reducer(initialState, addCommentAction.fulfilled(comment, 'offerId', { offerId: 'offerId', body: { comment: 'test', rating: 5 } }));
 
@@ -70,8 +70,8 @@ describe('Comment Slice', () => {
   });
 
   it('should set "Failed" with "addCommentAction.rejected" action', () => {
-    const initialState = { comments: [], status: RequestStatus.Loading };
-    const expectedState = { comments: [], status: RequestStatus.Failed };
+    const initialState = { comments: [], statusFetchComments: RequestStatus.Idle, statusAddComment: RequestStatus.Loading };
+    const expectedState = { comments: [], statusFetchComments: RequestStatus.Idle, statusAddComment: RequestStatus.Failed };
 
     const result = commentsSlice.reducer(initialState, addCommentAction.rejected(null, 'offerId', { offerId: 'offerId', body: { comment: 'test', rating: 5 } }));
 

@@ -1,10 +1,9 @@
-import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import { useEffect } from 'react';
-import { capitalizeFirstLetter, getRating } from '@utils/common';
+import { capitalizeFirstLetter, getRating, isAuth, pluralize } from '@utils/common';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { AuthorizationStatus, IMAGES_COUNT, NEAR_OFFERS_COUNT, RequestStatus } from '@const';
+import { IMAGES_COUNT, NEAR_OFFERS_COUNT, RequestStatus } from '@const';
 import { authSelectors } from '@store/slices/auth';
 import { fetchCommentsAction } from '@store/thunks/comments';
 import { offerSelectors } from '@store/slices/offer';
@@ -12,18 +11,19 @@ import { fetchNearByOffersAction, fetchOfferByIdAction } from '@store/thunks/off
 import { commentsSelectors } from '@store/slices/comments';
 import Container from '@components/container/container';
 import OfferCommentForm from '@components/offer-comment-form/offer-comment-form';
-import ListComments from '@components/list-comments/list-comments';
-import Map from '@components/map/map';
-import ListOffers from '@components/list-offers/list-offers';
+import MemorizedListComments from '@components/list-comments/list-comments';
+import MemorizedMap from '@components/map/map';
+import MemoizedListOffers from '@components/list-offers/list-offers';
 import NotFoundPage from '@pages/not-found-page/not-found-page';
 import Loader from '@components/loader/loader';
 import FavoriteButton from '@components/favorite-button/favorite-button';
+import HelmetComponent from '@components/helmet-component/helmet-component';
 
 function OfferPage(): JSX.Element | undefined {
   const { offerId } = useParams();
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(authSelectors.selectAuthorizationStatus);
-  const status = useAppSelector(offerSelectors.selectOfferStatus);
+  const offerStatusRequest = useAppSelector(offerSelectors.selectOfferStatus);
   const offerInfo = useAppSelector(offerSelectors.selectOffer);
   const nearOffers = useAppSelector(offerSelectors.selectNearByOffers);
   const comments = useAppSelector(commentsSelectors.selectComments);
@@ -36,13 +36,13 @@ function OfferPage(): JSX.Element | undefined {
     ]);
   }, [dispatch, offerId]);
 
-  if (status === RequestStatus.Loading) {
+  if (offerStatusRequest === RequestStatus.Loading) {
     return (
       <Loader />
     );
   }
 
-  if (status === RequestStatus.Failed || !offerInfo) {
+  if (offerStatusRequest === RequestStatus.Failed || !offerInfo) {
     return (
       <NotFoundPage />
     );
@@ -53,9 +53,7 @@ function OfferPage(): JSX.Element | undefined {
 
   return (
     <Container isLoginNav classMain="page__main--offer">
-      <Helmet>
-        <title>6 cities: offer</title>
-      </Helmet>
+      <HelmetComponent title='6 cities: offer' description='This page provides detailed information about the current offer: "6 cities: offer".'/>
       <section className="offer" data-testid='offer-section'>
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
@@ -87,10 +85,10 @@ function OfferPage(): JSX.Element | undefined {
             <ul className="offer__features">
               <li className="offer__feature offer__feature--entire">{capitalizeFirstLetter(offerInfo?.type ?? '')}</li>
               <li className="offer__feature offer__feature--bedrooms">
-                {offerInfo?.bedrooms ?? 0} {offerInfo?.bedrooms && offerInfo?.bedrooms > 1 ? 'Bedrooms' : 'Bedroom'}
+                {pluralize(offerInfo?.bedrooms, 'Bedroom', 'Bedrooms')}
               </li>
               <li className="offer__feature offer__feature--adults">
-                Max {offerInfo?.maxAdults ?? 0} {offerInfo?.maxAdults && offerInfo?.maxAdults > 1 ? 'adults' : 'adult'}
+                Max {pluralize(offerInfo?.maxAdults, 'adult', 'adults')}
               </li>
             </ul>
             <div className="offer__price">
@@ -120,19 +118,19 @@ function OfferPage(): JSX.Element | undefined {
             </div>
             <section className="offer__reviews reviews">
               <h2 className="reviews__title">Reviews · <span className="reviews__amount">{comments.length}</span></h2>
-              <ListComments comments={comments}/>
+              <MemorizedListComments comments={comments}/>
               {
-                authorizationStatus === AuthorizationStatus.Auth && <OfferCommentForm offerId={offerId ?? ''}/>
+                isAuth(authorizationStatus) && <OfferCommentForm offerId={offerId ?? ''}/>
               }
             </section>
           </div>
         </div>
-        <Map extraClass='offer' city={offerInfo.city} offers={nearOffersAndCurrent} selectedOfferId={offerInfo.id}/>
+        <MemorizedMap extraClass='offer' city={offerInfo.city} offers={nearOffersAndCurrent} selectedOfferId={offerInfo.id}/>
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <ListOffers offers={threeNearOffers} listBlock='near-places__list' block='near-places' />
+          <MemoizedListOffers offers={threeNearOffers} listBlock='near-places__list' block='near-places' />
         </section>
       </div>
     </Container>
